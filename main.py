@@ -2,7 +2,7 @@ import base64
 import io
 import uuid
 import requests
-from flask import Flask, request, render_template, flash, send_file, redirect, url_for, jsonify
+from flask import Flask, request, render_template, flash, send_file, redirect, url_for, jsonify, Markup
 from werkzeug.utils import secure_filename
 import os
 from PIL import Image
@@ -13,8 +13,10 @@ import cloudinary.uploader
 #import tensorflow as tf
 import json
 import numpy as np
-from realesrgan_ncnn_py import Realesrgan
+#from realesrgan_ncnn_py import Realesrgan
 import cv2
+from RealESRGAN import RealESRGAN
+import torch
 
 cloudinary.config(
     cloud_name = "djtemki0b",
@@ -23,18 +25,19 @@ cloudinary.config(
     secure=True,
 )
 
-UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
-
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.secret_key = "jskjf fkjaskj"
 
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 #app.config["MAX_CONTENT_LENGTH"] = 1000 * 1000
 
-realesrgan = Realesrgan(0, False, 0, 4)
+#realesrgan = Realesrgan(0, False, 0, 4)
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+model = RealESRGAN(device, scale=4)
+model.load_weights('https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth', download=True)
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -42,12 +45,16 @@ def allowed_file(filename):
 
 def process_image(img_file, filename):
     # Cloudinary image upload mechanism, obtaining an image url (in order to avoid locally saved images)
-    with Image.open(img_file) as image:
-        image = realesrgan.process_pil(image)
+    #with Image.open(img_file) as image:
+       # image = realesrgan.process_pil(image)
         #image.save(f"{filename}_enhanced.jpg", quality=95)
+    
+    image = Image.open(img_file).convert('RGB')
+
+    sr_image = model.predict(image)
 
     with io.BytesIO() as buf:
-        rgb_img = image.convert("RGB")
+        rgb_img = sr_image.convert("RGB")
         rgb_img.save(buf, 'jpeg')
         image_bytes = buf.getvalue()
 
@@ -153,10 +160,11 @@ def edit():
             #print(type(image_obj), end='a')
             #upscaled_img = upscale_image(processed_img, str(file.filename))
 
-            flash("Your file has been uploaded", 'success')
+            flash(Markup(f"Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a>"), "success")
             
-            return render_template("index.html", upscaled_img = processed_img)
-
+            #return render_template("index.html", upscaled_img = processed_img)
+            return redirect(url_for("home"))
+        
     return render_template("index.html")
 
 app.run(debug = True)
