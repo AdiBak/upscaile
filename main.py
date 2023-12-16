@@ -138,13 +138,13 @@ def edit():
     #operation = request.form.get("operation")
     if request.method == "POST":
         if "file" not in request.files:
-            flash("Please select or drag and drop an image file", 'error')
+            flash(Markup("<p class='error'>Please select or drag and drop an image file</p>"), 'error')
             return redirect(request.url)
         file = request.files["file"]
 
 
         if file.filename == "":
-            flash("Please select or drag and drop an image file", 'error')
+            flash(Markup("<p class='error'>Please select or drag and drop an image file</p>"), 'error')
             return redirect(request.url)
         if file and allowed_file(file.filename):
             blob = file.read()
@@ -160,7 +160,7 @@ def edit():
             #print(type(image_obj), end='a')
             #upscaled_img = upscale_image(processed_img, str(file.filename))
 
-            flash(Markup(f"Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a>"), "success")
+            flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
             
             #return render_template("index.html", upscaled_img = processed_img)
             return redirect(url_for("home"))
