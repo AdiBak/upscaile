@@ -25,6 +25,11 @@
             background-color: blanchedalmond;
         }
 
+        .overallbox {
+            position: relative;
+            top: 20%;
+        }
+
         .input-group {
             position: relative;
             height: 100px;
@@ -102,11 +107,16 @@
             position: relative;
 
         }
+
+        .container-fullwidth {
+            width: 100%;
+            position: fixed;
+            z-index: 10;
+        }
         
         .navbar-light {
             background-color: rgb(0, 108, 186) !important;
             border: 1px solid darkblue;
-            
 
         }
         .navbar-collapse {
@@ -123,11 +133,34 @@
         }
 
         .nav-link {
-            color: floralwhite;
+            color: black;
+        }
+
+        .nav-link, .active {
+            color: black;
         }
 
         .nav-link:hover {
             color: bisque;
+        }
+
+        #aboutdiv {
+            width: 50%;
+            position: absolute;
+            top: 80%;
+            text-align: center;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        footer {
+            position: absolute; 
+            bottom: 0px; 
+            left: 0px; 
+            width: 100%; 
+            position: fixed;
+            text-align: center;
+            font-size: 0.7rem;
         }
 
     </style>
@@ -145,10 +178,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Home</a>
+                        <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">About</a>
+                        <a class="nav-link" href="#aboutdiv">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Contact</a>
@@ -187,6 +220,22 @@
 
 </div>
 
+<div class="container-lg" id="aboutdiv">
+    <p>
+        Hi there! Have you ever struggled to enhance your images due to the lack of effective 
+        and free software? I understand your frustration, which is why I 
+        have developed a platform that employs AI to seamlessly upsc"AI"le and enhance 
+        your images!
+        
+        Powered by the cutting-edge RealESRGAN algorithm, Upscaile is the perfect 
+        solution for all your image upscaling needs. And the best part? It's free.
+    
+        Give it a try!</p>
+</div>
+
+<footer>
+    Copyright &copy; 2023 Upscaile. All Rights Reserved.
+</footer>
 
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
