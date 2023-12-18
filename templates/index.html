@@ -21,13 +21,14 @@
             height: 100%;
             margin: 0px;
             padding: 0px;
-            overflow-x: hidden; 
+            overflow-x: clip;
             background-color: blanchedalmond;
         }
 
         .overallbox {
             position: relative;
             top: 20%;
+            z-index: 1;
         }
 
         .input-group {
@@ -36,6 +37,7 @@
             width: 50%;
             top: 20px;
             border-radius: 2px;
+            
         }
 
         .form-control {
@@ -46,6 +48,7 @@
             width: 100%;
             height: 200px;
             left: 50%;
+
         }
 
         #inputGroupFileAddon04 {
@@ -61,30 +64,35 @@
 
         .flashbox {
             left: 50%;
+            top: 12%;
+            height: 50px;
+            position: absolute;
+            transform: translate(-50%);
+            z-index: 1;
+
         }
 
         .error-img {
             position: relative;
-            top: 50%;
-            width: 3%;
-            height: 3%;
+            top: 0px;
             left: 35%;
+            height: 100%;
+           
         }
 
         .error {
             position: relative;
             top: 0px;
             color: red;
-            margin-left: 225px;
+            margin-left: 230px;
             display: inline;
         }
 
         .success-img {
             position: relative;
-            top: 50%;
-            width: 3%;
-            height: 3%;
+            top: 0px;
             left: 33%;
+            height: 100%;
         }
 
         .success {
@@ -111,7 +119,8 @@
         .container-fullwidth {
             width: 100%;
             position: fixed;
-            z-index: 10;
+            top: 0px;
+            z-index: 2;
         }
         
         .navbar-light {
@@ -147,7 +156,7 @@
         #aboutdiv {
             width: 50%;
             position: absolute;
-            top: 80%;
+            top: 1000px;
             text-align: center;
             left: 50%;
             transform: translate(-50%);
@@ -161,6 +170,7 @@
             position: fixed;
             text-align: center;
             font-size: 0.7rem;
+            z-index: 2;
         }
 
     </style>
@@ -222,13 +232,14 @@
 
 <div class="container-lg" id="aboutdiv">
     <p>
-        Hi there! Have you ever struggled to enhance your images due to the lack of effective 
+        Have you ever struggled to enhance your images due to the lack of effective 
         and free software? I understand your frustration, which is why I 
-        have developed a platform that employs AI to seamlessly upsc"AI"le and enhance 
-        your images!
+        have developed a platform that employs AI to seamlessly upsc'AI'le and enhance 
+        your images.
         
         Powered by the cutting-edge RealESRGAN algorithm, Upscaile is the perfect 
-        solution for all your image upscaling needs. And the best part? It's free.
+        solution for all your image upscaling needs. And the best part? It's free. No credit usage, 
+        no pricing plans, none of that. 
     
         Give it a try!</p>
 </div>
