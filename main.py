@@ -48,7 +48,7 @@ def process_image(img_file, filename):
     #with Image.open(img_file) as image:
        # image = realesrgan.process_pil(image)
         #image.save(f"{filename}_enhanced.jpg", quality=95)
-    
+
     image = Image.open(img_file).convert('RGB')
 
     sr_image = model.predict(image)
@@ -152,7 +152,7 @@ def edit():
             if int(len(blob)/(1024*1024)) > 1:
                 flash("Image exceeded file size limit of 1 MB", "error")
                 return redirect(request.url)
-        
+
             filename = secure_filename(file.filename)
             
             processed_img = process_image(file, Path(file.filename).stem)
