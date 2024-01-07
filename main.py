@@ -1,8 +1,10 @@
 import base64
 import io
+from tempfile import NamedTemporaryFile
 import uuid
 import requests
 from flask import Flask, request, render_template, flash, send_file, redirect, url_for, jsonify, Markup
+import urllib.request
 from werkzeug.utils import secure_filename
 import os
 from PIL import Image
@@ -10,13 +12,11 @@ from pathlib import Path
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-#import tensorflow as tf
 import json
 import numpy as np
-#from realesrgan_ncnn_py import Realesrgan
 import cv2
-from RealESRGAN import RealESRGAN
 import torch
+import replicate
 
 cloudinary.config(
     cloud_name = "djtemki0b",
@@ -25,106 +25,52 @@ cloudinary.config(
     secure=True,
 )
 
+os.environ["REPLICATE_API_TOKEN"] = "r8_2pJMAXH7hvz3xS7kB4cMGrLhsU0XP7c10tz4F"
+
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
 app.secret_key = "jskjf fkjaskj"
 
-#app.config["MAX_CONTENT_LENGTH"] = 1000 * 1000
-
-#realesrgan = Realesrgan(0, False, 0, 4)
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-model = RealESRGAN(device, scale=4)
-model.load_weights('https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth', download=True)
-
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def process_image(img_file, filename):
-    # Cloudinary image upload mechanism, obtaining an image url (in order to avoid locally saved images)
-    #with Image.open(img_file) as image:
-       # image = realesrgan.process_pil(image)
-        #image.save(f"{filename}_enhanced.jpg", quality=95)
+def process_image(img_file, enhance_face):
 
-    image = Image.open(img_file).convert('RGB')
-
-    sr_image = model.predict(image)
-
+    #image = Image.open(img_file).convert('RGB')
     with io.BytesIO() as buf:
-        rgb_img = sr_image.convert("RGB")
+        rgb_img = Image.open(img_file).convert('RGB')
         rgb_img.save(buf, 'jpeg')
         image_bytes = buf.getvalue()
 
     raw_uuid = str(uuid.uuid4())
     pub_id = ''.join(c for c in raw_uuid if c.isalnum())
 
-    upl_resp = cloudinary.uploader.upload(image_bytes, public_id=pub_id)
+    upl_resp = cloudinary.uploader.upload(image_bytes, public_id=pub_id, type="private")
     image_url = upl_resp['url']
-    print(image_url, type(image_url))
 
-    return image_url
-    '''payload = json.dumps({
-        "key": "nk9PYPOymevvGmoidCRWMRdtNOLoz5D67O8bHnMBkDVElp4TNB5wxXmb57VP",
-        "url": image_url,
-        "scale": 3,
-        "webhook": None,
-        "face_enhance": False
-    })
-
-    headers = {
-    'Content-Type': 'application/json'
-    }
-
-    response = requests.request("POST", url, headers=headers, data=payload)
-
-    print(response.text)
-    ----------------
-    url = "https://api.getimg.ai/v1/enhancements/upscale"
-
-    b64_str = base64.b64encode(img_bytes).decode('ascii')
+    if enhance_face:
+        sr_image = replicate.run(
+            "tencentarc/gfpgan:9283608cc6b7be6b65a8e44983db012355fde4132009bf99d976b2f0896856a3",
+            input={"image": image_url,
+                   "upscale": 4}
+        )
+        print("upscaled face")
+    else: 
+        
+        sr_image = replicate.run(
+            "cjwbw/real-esrgan:d0ee3d708c9b911f122a4ad90046c5d26a0293b99476d697f6bb7f2e251ce2d4",
+            input={"image": image_url,
+                   "upscale": 4}
+        ) #model.predict(image)
+        print("upscaled non face")
     
-    payload = {
-        "scale": 4,
-        "image": b64_str,
-        "model": "real-esrgan-4x",
-        "output_format": "jpeg"
-    }
-    headers = {
-        "accept": "application/json",
-        "content-type": "application/json",
-        "authorization": "Bearer key-2j8Ul8MQ4Ktjs4ptEnAVTYh2QBM25yfseErmt5vzSU5KUFbrapTzYBLTjP2uAyDOxFgSosAvQ5yjB5eCjFnG0tKSeWAKe5IF"
-    }
-
-    response = requests.post(url, json=payload, headers=headers)
-    print(response.text)
+    public_ids = [pub_id]
+    image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
+    print(image_delete_result)
+    return sr_image
     
-    data = response.json();
-    imgdata = base64.b64decode(data["image"])
-    print(type(imgdata))
-
-    upscaled_img_name = filename + "_upscaled.jpeg" 
-    with open(filename, 'wb') as upscaled_img_file:
-        upscaled_img_file.write(imgdata)
-
-    
-    return upscaled_img_file'''
-
-    '''device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    model = RealESRGANer(scale=4, model_path="weights/RealESRGAN_x4plus.pth", device=device)
-
-    model.load_state_dict(torch.load("weights/RealESRGAN_x4plus.pth"))
-    model.eval()
-    
-#    path_to_image = 'inputs/lr_image.png'
-    image = img_file.convert('RGB')
-
-    sr_image = model(image)
-    
-    return sr_image'''
 
 
 
@@ -154,11 +100,10 @@ def edit():
                 return redirect(request.url)
 
             filename = secure_filename(file.filename)
-            
-            processed_img = process_image(file, Path(file.filename).stem)
-            
-            #print(type(image_obj), end='a')
-            #upscaled_img = upscale_image(processed_img, str(file.filename))
+            enhance_face = request.form.get("faceEnhance")
+            print(enhance_face)
+
+            processed_img = process_image(file, enhance_face)
 
             flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
             

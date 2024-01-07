@@ -1,22 +1,20 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Upscaile</title>
-    <link rel="shortcut icon" type="image/x-icon" href="https://www.prodraw.net/favicon/download.php?file=v71k6etx_2.ico"/>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-            crossorigin="anonymous"
-    />
+    <link rel="shortcut icon" type="image/x-icon"
+        href="https://www.prodraw.net/favicon/download.php?file=v71k6etx_2.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
 
     <style>
-        html,body
-        {
+        @import url('https://fonts.cdnfonts.com/css/wix-madefor-text');
+
+        html,
+        body {
             width: 100%;
             height: 100%;
             margin: 0px;
@@ -50,15 +48,32 @@
 
         }
 
+        #faceoptionbox{
+            position: relative;
+            margin-top: 120px;
+            width: 20%;
+            height: 20px;
+            left: 50%;
+            transform: translate(-25%);
+            font-family: 'Wix Madefor Text', sans-serif;
+        }
+
+        #faceEnhanceChoice{
+            height: 30px;
+            top: 50%;
+            border-radius: 2px;
+            position: relative;
+        }
+
         #inputGroupFileAddon04 {
             height: 10%;
             width: 15%;
-            top: 125px;        
+            top: 30px;
             position: relative;
             left: 50%;
             transform: translate(-50%);
             font-size: large;
-            font-family: 'Helvetica';
+            font-family: 'Wix Madefor Text', sans-serif;
         }
 
         .flashbox {
@@ -76,7 +91,7 @@
             top: 0px;
             left: 35%;
             height: 100%;
-           
+
         }
 
         .error {
@@ -128,7 +143,8 @@
         .pageheader {
             position: relative;
             left: 35%;
-            font-family: 'Helvetica';
+            font-family: 'Wix Madefor Text', sans-serif;
+            ;
             font-weight: 200;
         }
 
@@ -144,21 +160,24 @@
             position: fixed;
             top: 0px;
             z-index: 2;
+
         }
-        
+
         .navbar-light {
-            background-color: rgb(0, 108, 186) !important;
+            background-color: honeydew !important;
             border: 1px solid darkblue;
 
         }
+
         .navbar-collapse {
             margin-left: 20px;
-            font-family: 'Helvetica';
+            font-family: 'Wix Madefor Text', sans-serif;
+            ;
             font-size: large;
             font-weight: bold;
-            
+
         }
-        
+
         .nav-item {
             margin-right: 20px;
             display: inline;
@@ -168,12 +187,13 @@
             color: black;
         }
 
-        .nav-link, .active {
+        .nav-link,
+        .active {
             color: black;
         }
 
         .nav-link:hover {
-            color: bisque;
+            color: darkgray;
         }
 
         .sampleimg {
@@ -182,6 +202,91 @@
             height: 70%;
             position: relative;
             top: 55%;
+        }
+
+        #sampleheader {
+            font-size: x-large;
+            top: 10px;
+            left: 50%;
+            transform: translate(-50%);
+            position: absolute;
+            font-family: 'Wix Madefor Text', sans-serif;
+            ;
+            font-weight: lighter;
+        }
+
+        #myCarousel {
+            height: 450px;
+            width: 590px;
+            top: 10%;
+            position: relative;
+            margin-left: 10px;
+        }
+
+        #myCarousel2 {
+            height: 450px;
+            width: 400px;
+            top: 10%;
+            position: absolute;
+            margin-left: 45%;
+        }
+
+        .carousel-indicators {
+            margin-bottom: 8px;
+            filter: invert(100%);
+        }
+
+        .carousel-indicators>li {
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+        }
+
+        .carousel-inner {
+            height: 100%;
+        }
+
+        .carousel-item {
+            text-align: center;
+        }
+
+        .parent {
+            min-height: 200px;
+        }
+
+        .carousel-item img {
+            display: block;
+            margin: auto;
+        }
+
+        #lowres1 {
+            display: block;
+            top: 50%;
+            transform: translateY(20%);
+            position: absolute;
+            margin: auto;
+        }
+
+        #highres1 {
+            display: block;
+            
+            height: 450px;
+            width: 590px;
+        }
+        
+        #lowres2 {
+            display: block;
+            top: 50%;
+            transform: translateY(20%);
+            position: absolute;
+            margin: auto;
+        }
+
+        #highres2 {
+            display: block;
+            
+            height: 450px;
+            width: 400px;
         }
 
         #aboutdiv {
@@ -195,6 +300,8 @@
             background-color: ivory;
             padding-left: 20%;
             padding-right: 20%;
+            font-family: 'Wix Madefor Text', sans-serif;
+            ;
         }
 
         #aboutpara {
@@ -204,122 +311,199 @@
         }
 
         footer {
-            position: absolute; 
-            bottom: 0px; 
-            left: 0px; 
-            width: 100%; 
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
             position: fixed;
             text-align: center;
             font-size: 0.7rem;
             z-index: 2;
         }
-
     </style>
 </head>
+
 <body>
 
 
-<div class="container-fullwidth">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#"><img class="logoimage" src="https://i.ibb.co/9txbWJ1/possibleicon.png"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#aboutdiv">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Contact</a>
-                    </li>
-                </ul>
+    <div class="container-fullwidth">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img class="logoimage"
+                        src="https://i.ibb.co/9txbWJ1/possibleicon.png"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#aboutdiv">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="collapse"
+                                data-bs-target=".navbar-collapse.show">Contact</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    
-</div>
+        </nav>
 
-<div class="container my-4 flashbox">
-    <div id="loadingdiv">
-        <img class="loading-img" src="https://raw.githubusercontent.com/Codelessly/FlutterLoadingGIFs/master/packages/cupertino_activity_indicator_selective.gif">
-        <label class="loading">Upscailing...</label>
     </div>
-    
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% for category, mesg in messages %}
-    {% if category == 'error' %}
-    <img src="https://www.freeiconspng.com/thumbs/error/the-error-exclamation-point-photos-6.png"
-         class="error-img">
-    {% elif category == 'success' %}
-    <img src="https://freepngimg.com/save/18343-success-png-image/1200x1200" class="success-img">
-    {% endif %}
-    <label class="{{ category }}">{{ mesg }}</label>
-    {% endfor %}
-{% endwith %}
-</div>
 
-<div class="container my-4 overallbox">
-    <h1 class="fs-2 text pageheader">Upsc'ai'le your image here!</h1>
-    <form action="/edit" method="post" enctype="multipart/form-data">
-        <div class="input-group mb-3">
-
-            <input class="form-control" name="file" type="file" id="formFile"/>
+    <div class="container my-4 flashbox">
+        <div id="loadingdiv">
+            <img class="loading-img"
+                src="https://raw.githubusercontent.com/Codelessly/FlutterLoadingGIFs/master/packages/cupertino_activity_indicator_selective.gif">
+            <label class="loading">Upscailing...</label>
         </div>
 
-        <button type="submit" class="btn btn-success" id="inputGroupFileAddon04" onclick="enableSpinner();">Submit</button>
-    </form>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, mesg in messages %}
+        {% if category == 'error' %}
+        <img src="https://www.freeiconspng.com/thumbs/error/the-error-exclamation-point-photos-6.png" class="error-img">
+        {% elif category == 'success' %}
+        <img src="https://freepngimg.com/save/18343-success-png-image/1200x1200" class="success-img">
+        {% endif %}
+        <label class="{{ category }}">{{ mesg }}</label>
+        {% endfor %}
+        {% endwith %}
+    </div>
 
-</div>
+    <div class="container my-4 overallbox">
+        <h1 class="fs-2 text pageheader">Upsc'ai'le your image here!</h1>
+        <form action="/edit" method="post" enctype="multipart/form-data">
+            <div class="input-group mb-3">
 
-<div class="sampleimg" id="samplesdiv">
-
-</div>
-
-<div id="aboutdiv">
-    <p id="aboutpara">
-        Have you ever struggled to enhance your images due to the lack of effective 
-        and free software? I understand your frustration, which is why I 
-        have developed a platform that employs AI to seamlessly upsc'AI'le and enhance 
-        your images 4x their original resolution.
+                <input class="form-control" name="file" type="file" id="formFile" />
+            </div>
+            <div id="faceoptionbox">
+                <input type="checkbox" id="faceEnhanceChoice" name="faceEnhance" value="checkedFace"/>
+                <label for="faceEnhance">Enhance Face</label>
+              </div>
+            <button type="submit" class="btn btn-success" id="inputGroupFileAddon04"
+                onclick="enableSpinner();">Submit</button>
+        </form>
         
-        Powered by the cutting-edge RealESRGAN algorithm, Upscaile is the perfect 
-        solution for all your image upscaling needs. And the best part? It's free. No credit usage, 
-        no pricing plans, none of that. 
-    
-        Give it a try!</p>
-</div>
+    </div>
 
-<footer>
-    Copyright &copy; 2023 Upscaile. All Rights Reserved.
-</footer>
+    <div class="sampleimg" id="samplesdiv">
+        <p id="sampleheader">Product Demo: 4x enhancement leads to stunning results </p>
+        
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"></button>
+            </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="parent d-flex justify-content-center">
+                        <img id="lowres1" style="height: 200px;"
+                            src="https://consolidatedlabel.com/app/uploads/2007/10/low-res-72dpi.jpg">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="parent d-flex justify-content-center">
+                        <img id="highres1" 
+                            src="https://res.cloudinary.com/djtemki0b/image/private/f_auto,q_auto/53d6020897894e4cbd7a98c13c82d224">
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="carousel-control-prev" style="filter:invert(100%);" href="#myCarousel" role="button"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+
+            <a class="carousel-control-next" style="filter:invert(100%);" href="#myCarousel" role="button"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+        </div>
+
+        <div id="myCarousel2" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#myCarousel2" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#myCarousel2" data-bs-slide-to="1"></button>
+            </div>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="parent d-flex justify-content-center">
+                        <img id="lowres2" style="height: 200px;"
+                            src="https://user-images.githubusercontent.com/3199888/37054504-089d7a00-214d-11e8-8982-ca836f7a4460.jpg">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="parent d-flex justify-content-center">
+                        <img id="highres2" 
+                            src="https://user-images.githubusercontent.com/111052839/184109441-27dcd3db-5e28-47d5-832d-6e25a2b06f7c.jpg">
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="carousel-control-prev" style="filter:invert(100%);" href="#myCarousel2" role="button"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+
+            <a class="carousel-control-next" style="filter:invert(100%);" href="#myCarousel2" role="button"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+        </div>
+    </div>
+
+    <div id="aboutdiv">
+        <p id="aboutpara">
+            Have you ever struggled to enhance your images due to the lack of effective
+            and free software? I understand your frustration, which is why I
+            have developed a platform that employs AI to seamlessly upsc'AI'le and enhance
+            your images 4x their original resolution.
+
+            Powered by the cutting-edge RealESRGAN algorithm, Upscaile is the perfect
+            solution for all your image upscaling needs. And the best part? It's free. No credit usage,
+            no pricing plans, none of that.
+
+            Give it a try!</p>
+    </div>
+
+    <footer>
+        Copyright &copy; 2023 Upscaile. All Rights Reserved.
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"
-></script>
-<script type="text/javascript">
-    $("#inputGroupFileAddon04").on("click", function() {
-        $("#loadingdiv").show();
-        $(".error-img").hide();
-        $(".error").hide();
-        $(".success-img").hide();
-        $(".success").hide();
-    });
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $("#inputGroupFileAddon04").on("click", function () {
+            $("#loadingdiv").show();
+            $(".error-img").hide();
+            $(".error").hide();
+            $(".success-img").hide();
+            $(".success").hide();
+        });
 
-    $(document).on("ready", ".error-img", function(){
-        $("#loadingdiv").hide();  
-    });
+        $(document).on("ready", ".error-img", function () {
+            $("#loadingdiv").hide();
+        });
 
-    $(document).on("ready", ".success-img", function(){
-        $("#loadingdiv").hide();  
-    });
-</script>
+        $(document).on("ready", ".success-img", function () {
+            $("#loadingdiv").hide();
+        });
+    </script>
 </body>
+
 </html>
