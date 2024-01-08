@@ -53,22 +53,20 @@ def process_image(img_file, enhance_face):
     if enhance_face:
         sr_image = replicate.run(
             "tencentarc/gfpgan:9283608cc6b7be6b65a8e44983db012355fde4132009bf99d976b2f0896856a3",
-            input={"image": image_url,
-                   "upscale": 4}
+            input={"img": image_url,
+                   "scale": 4,
+                   "version": "v1.4"}
         )
-        print("upscaled face")
     else: 
         
         sr_image = replicate.run(
             "cjwbw/real-esrgan:d0ee3d708c9b911f122a4ad90046c5d26a0293b99476d697f6bb7f2e251ce2d4",
             input={"image": image_url,
                    "upscale": 4}
-        ) #model.predict(image)
-        print("upscaled non face")
+        ) 
     
     public_ids = [pub_id]
     image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
-    print(image_delete_result)
     return sr_image
     
 

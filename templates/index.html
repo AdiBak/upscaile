@@ -220,15 +220,23 @@
             width: 590px;
             top: 10%;
             position: relative;
-            margin-left: 10px;
+            margin-left: 3px;
         }
 
         #myCarousel2 {
             height: 450px;
-            width: 400px;
+            width: 435px;
             top: 10%;
             position: absolute;
-            margin-left: 45%;
+            margin-left: 40%;
+        }
+
+        #myCarousel3 {
+            height: 450px;
+            width: 435px;
+            top: 10%;
+            position: absolute;
+            margin-left: 70%;
         }
 
         .carousel-indicators {
@@ -269,7 +277,6 @@
 
         #highres1 {
             display: block;
-            
             height: 450px;
             width: 590px;
         }
@@ -284,9 +291,22 @@
 
         #highres2 {
             display: block;
-            
             height: 450px;
-            width: 400px;
+            width: 435px;
+        }
+
+        #lowres3 {
+            display: block;
+            top: 50%;
+            transform: translateY(20%);
+            position: absolute;
+            margin: auto;
+        }
+
+        #highres3 {
+            display: block;
+            height: 450px;
+            width: 435px;
         }
 
         #aboutdiv {
@@ -458,6 +478,41 @@
             </a>
 
             <a class="carousel-control-next" style="filter:invert(100%);" href="#myCarousel2" role="button"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+        </div>
+
+        <div id="myCarousel3" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#myCarousel3" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#myCarousel3" data-bs-slide-to="1"></button>
+            </div>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="parent d-flex justify-content-center">
+                        <img id="lowres3" style="height: 200px;"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuYiVEpzU381z1yRC1YdILQJlqvdat-0QL9g&usqp=CAU">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="parent d-flex justify-content-center">
+                        <img id="highres3" 
+                            src="https://i.ibb.co/LCHGHj3/out.png">
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="carousel-control-prev" style="filter:invert(100%);" href="#myCarousel3" role="button"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+
+            <a class="carousel-control-next" style="filter:invert(100%);" href="#myCarousel3" role="button"
                 data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only"></span>
