@@ -1,4 +1,5 @@
 {
-    "appService.defaultWebAppToDeploy": "undefined/subscriptions/b5e116f8-d127-41c1-ae15-6e43bf22b4f9/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/upscaile",
-    "appService.deploySubpath": "."
+    "workbench.colorCustomizations": {
+        "editorLineNumber.foreground": "#00ff00"
+    }
 }
