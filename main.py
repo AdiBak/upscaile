@@ -2,6 +2,8 @@ import base64
 import io
 import uuid
 import requests
+import json
+import yaml
 from flask import Flask, request, render_template, flash, send_file, redirect, url_for, jsonify, Markup
 from werkzeug.utils import secure_filename
 import os
@@ -12,19 +14,25 @@ import cloudinary.api
 import cloudinary.uploader
 import replicate
 
+with open("auth.yaml", 'r') as config_file:
+    config = yaml.load(config_file)
+
+json.dumps(config, indent=2, sort_keys=True)
+
 cloudinary.config(
-    cloud_name = "djtemki0b",
-    api_key = "149873511639713",
-    api_secret = "hatlAML3ExewMgJ9GHK6HMvLxGc",
+    cloud_name = config["cloudinary"]["cloud_name"],
+    api_key = config["cloudinary"]["api_key"],
+    api_secret = config["cloudinary"]["api_secret"],
     secure=True,
 )
 
-os.environ["REPLICATE_API_TOKEN"] = "r8_2pJMAXH7hvz3xS7kB4cMGrLhsU0XP7c10tz4F"
+os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
-app.secret_key = "jskjf fkjaskj"
+app.secret_key = config["app"]["secret_key"]
+
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS

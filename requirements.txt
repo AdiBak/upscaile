@@ -4,3 +4,4 @@ replicate==0.22.0
 requests==2.31.0
 gunicorn==21.2.0
 cloudinary==1.36.0
+pyyaml==6.0.1
