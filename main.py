@@ -33,7 +33,7 @@ os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
-app.secret_key = config["app"]["secret_key"]
+app.secret_key = "jjkjkl ssdnobi"
 
 
 def allowed_file(filename):
