@@ -538,6 +538,14 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript">
+        $(document).ready(function(){
+            $("#loadingdiv").hide();
+            $(".error-img").hide();
+            $(".error").hide();
+            $(".success-img").hide();
+            $(".success").hide();
+        });
+
         $("#inputGroupFileAddon04").on("click", function () {
             $("#loadingdiv").show();
             $(".error-img").hide();
