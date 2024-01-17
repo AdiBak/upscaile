@@ -14,6 +14,7 @@ import cloudinary.api
 import cloudinary.uploader
 import replicate
 
+'''
 with open("auth.yaml", 'r') as config_file:
     config = yaml.load(config_file)
 
@@ -27,6 +28,7 @@ cloudinary.config(
 )
 
 os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
+'''
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
