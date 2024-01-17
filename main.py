@@ -1,10 +1,8 @@
 import base64
 import io
-from tempfile import NamedTemporaryFile
 import uuid
 import requests
 from flask import Flask, request, render_template, flash, send_file, redirect, url_for, jsonify, Markup
-import urllib.request
 from werkzeug.utils import secure_filename
 import os
 from PIL import Image
@@ -12,10 +10,6 @@ from pathlib import Path
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-import json
-import numpy as np
-import cv2
-import torch
 import replicate
 
 cloudinary.config(
