@@ -109,3 +109,5 @@ def edit():
             return redirect(url_for("home"))
         
     return render_template("index.html")
+
+app.run(debug=True)
