@@ -32,7 +32,8 @@
         .input-group {
             position: relative;
             height: 100px;
-            width: 50%;
+            width: 70%;
+            transform: translate(-29%);
             top: 20px;
             border-radius: 2px;
         }
@@ -52,17 +53,25 @@
             position: relative;
             margin-top: 120px;
             width: 20%;
-            height: 20px;
+            height: 30px;
+            font-size: large;
             left: 50%;
-            transform: translate(-25%);
+            transform: translate(-27%);
             font-family: 'Wix Madefor Text', sans-serif;
         }
 
         #faceEnhanceChoice{
             height: 30px;
+            width: 30px;
             top: 50%;
             border-radius: 2px;
             position: relative;
+        }
+
+        #faceEnhanceLabel {
+            position: relative;
+            top: 50%;
+            transform: translateY(-30%);
         }
 
         #inputGroupFileAddon04 {
@@ -201,7 +210,7 @@
             background-color: mintcream;
             height: 70%;
             position: relative;
-            top: 55%;
+            top: 35%;
         }
 
         #sampleheader {
@@ -217,7 +226,7 @@
 
         #myCarousel {
             height: 450px;
-            width: 590px;
+            width: 585px;
             top: 10%;
             position: relative;
             margin-left: 3px;
@@ -278,7 +287,7 @@
         #highres1 {
             display: block;
             height: 450px;
-            width: 590px;
+            width: 585px;
         }
         
         #lowres2 {
@@ -313,7 +322,7 @@
             width: 100%;
             height: 40%;
             position: relative;
-            top: 600px;
+            top: 250px;
             text-align: center;
             justify-content: center;
             left: 0px;
@@ -330,21 +339,11 @@
             margin-right: 20%;
         }
 
-        footer {
-            position: absolute;
-            bottom: 0px;
-            left: 0px;
-            width: 100%;
-            position: fixed;
-            text-align: center;
-            font-size: 0.7rem;
-            z-index: 2;
-        }
+        
     </style>
 </head>
 
 <body>
-
 
     <div class="container-fullwidth">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -403,7 +402,7 @@
             </div>
             <div id="faceoptionbox">
                 <input type="checkbox" id="faceEnhanceChoice" name="faceEnhance" value="checkedFace"/>
-                <label for="faceEnhance">Enhance Face</label>
+                <label id="faceEnhanceLabel" for="faceEnhance">Enhance Face</label>
               </div>
             <button type="submit" class="btn btn-success" id="inputGroupFileAddon04"
                 onclick="enableSpinner();">Submit</button>
@@ -430,7 +429,7 @@
                 <div class="carousel-item">
                     <div class="parent d-flex justify-content-center">
                         <img id="highres1" 
-                            src="https://res.cloudinary.com/djtemki0b/image/private/f_auto,q_auto/53d6020897894e4cbd7a98c13c82d224">
+                            src="https://replicate.delivery/pbxt/MvrfPuaDZlx4aSmGJEfuJejhIyFkNaiKHi230CozRqqMTYakA/out.png">
                     </div>
                 </div>
 
@@ -524,19 +523,15 @@
         <p id="aboutpara">
             Have you ever struggled to enhance your images due to the lack of effective
             and free software? I understand your frustration, which is why I
-            have developed a platform that employs AI to seamlessly upsc'AI'le and enhance
-            your images 4x their original resolution.
-
-            Powered by the cutting-edge RealESRGAN algorithm, Upscaile is the perfect
-            solution for all your image upscaling needs. And the best part? It's free. No credit usage,
-            no pricing plans, none of that.
+            have developed a platform to seamlessly upsc'AI'le and enhance your images 
+            4x their original resolution. 
+            <br><br>
+            Powered by <a href="https://replicate.com/" target=”_blank”>Replicate</a>, <a href="https://github.com/xinntao/Real-ESRGAN" target=”_blank”>RealESRGAN</a> 
+            and <a href="https://github.com/TencentARC/GFPGAN">GFPGAN</a> and created by <a href="https://github.com/AdiBak/" target=”_blank”>Me</a> &#128578;.
+            <br><br>
 
             Give it a try!</p>
     </div>
-
-    <footer>
-        Copyright &copy; 2023 Upscaile. All Rights Reserved.
-    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
