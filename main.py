@@ -56,7 +56,7 @@ def process_image(img_file, enhance_face):
 
     if enhance_face:
         sr_image = replicate.run(
-            "tencentarc/gfpgan:9283608cc6b7be6b65a8e44983db012355fde4132009bf99d976b2f0896856a3",
+            "tencentarc/gfpgan:0fbacf7afc6c144e5be9767cff80f25aff23e52b0708f17e20f9879b2f21516c",
             input={"img": image_url,
                    "scale": 4,
                    "version": "v1.4"}
