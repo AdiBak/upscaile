@@ -162,6 +162,11 @@ def edit():
 
             flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
             
+            with open('numUpscales.txt', 'r') as f:
+                t = f.read()
+            with open('numUpscales.txt', 'w') as f:
+                f.write(str(int(t) + 1))
+
             #return render_template("index.html", upscaled_img = processed_img)
             return redirect(url_for("home"))
         
