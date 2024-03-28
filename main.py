@@ -16,10 +16,10 @@ import replicate
 import subprocess
 
 
-with open(".github/auth.yaml", 'r') as config_file:
+'''with open(".github/auth.yaml", 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.Loader)
 
-json.dumps(config, indent=2, sort_keys=True)
+json.dumps(config, indent=2, sort_keys=True)'''
 
 cloudinary.config(
     cloud_name = os.environ["cloud_name"],
