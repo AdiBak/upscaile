@@ -16,20 +16,19 @@ import replicate
 import subprocess
 
 
-'''with open(".github/auth.yaml", 'r') as config_file:
+with open(".github/auth.yaml", 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.Loader)
 
 json.dumps(config, indent=2, sort_keys=True)
 
 cloudinary.config(
-    cloud_name = config["cloudinary"]["cloud_name"],
-    api_key = config["cloudinary"]["api_key"],
-    api_secret = config["cloudinary"]["api_secret"],
+    cloud_name = os.environ["cloud_name"],
+    api_key = os.environ["cloudinary_key"],
+    api_secret = os.environ["cloudinary_secret"],
     secure=True,
 )
 
-os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]'''
-
+os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
@@ -165,6 +164,7 @@ def edit():
             with open('numUpscales.txt', 'r') as f:
                 t = f.read()
             with open('numUpscales.txt', 'w') as f:
+                print(str(int(t)))
                 f.write(str(int(t) + 1))
 
             #return render_template("index.html", upscaled_img = processed_img)
