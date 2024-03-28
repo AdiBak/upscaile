@@ -16,7 +16,7 @@ import replicate
 import subprocess
 
 
-with open(".github/auth.yaml", 'r') as config_file:
+'''with open(".github/auth.yaml", 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.Loader)
 
 json.dumps(config, indent=2, sort_keys=True)
@@ -28,7 +28,7 @@ cloudinary.config(
     secure=True,
 )
 
-os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
+os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]'''
 
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
@@ -61,7 +61,7 @@ def get_result(job_id):
 
     headers = {
         "accept": "application/json",
-        "X-Prodia-Key": config["prodia"]["prodia_key"]
+        "X-Prodia-Key": os.environ["X-Prodia-Key"] #config["prodia"]["prodia_key"]
     }
 
     response = requests.get(url, headers=headers)
@@ -86,7 +86,7 @@ def upscale(image_url, model):
     headers_upsc = {
         "accept": "application/json",
         "content-type": "application/json",
-        "X-Prodia-Key": config["prodia"]["prodia_key"]
+        "X-Prodia-Key": os.environ["X-Prodia-Key"] # config["prodia"]["prodia_key"]
     }
 
     response_upsc = requests.post(url_upsc, json=payload_upsc, headers=headers_upsc)
@@ -111,7 +111,7 @@ def process_image(img_file, enhance_face):
         headers_FE = {
             "accept": "application/json",
             "content-type": "application/json",
-            "X-Prodia-Key": config["prodia"]["prodia_key"]
+            "X-Prodia-Key": os.environ["X-Prodia-Key"] #["prodia"]["prodia_key"]
         }
 
         response_FE = requests.post(url_FE, json=payload_FE, headers=headers_FE)
