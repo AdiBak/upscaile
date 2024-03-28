@@ -13,10 +13,11 @@ import cloudinary
 import cloudinary.api
 import cloudinary.uploader
 import replicate
+import subprocess
 
-'''
-with open("auth.yaml", 'r') as config_file:
-    config = yaml.load(config_file)
+
+with open(".github/auth.yaml", 'r') as config_file:
+    config = yaml.load(config_file, Loader=yaml.Loader)
 
 json.dumps(config, indent=2, sort_keys=True)
 
@@ -28,7 +29,7 @@ cloudinary.config(
 )
 
 os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
-'''
+
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
@@ -40,9 +41,7 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def process_image(img_file, enhance_face):
-
-    #image = Image.open(img_file).convert('RGB')
+def upload_to_cloudinary_and_get_id_url(img_file):
     with io.BytesIO() as buf:
         rgb_img = Image.open(img_file).convert('RGB')
         rgb_img.save(buf, 'jpeg')
@@ -54,26 +53,80 @@ def process_image(img_file, enhance_face):
     upl_resp = cloudinary.uploader.upload(image_bytes, public_id=pub_id, type="private")
     image_url = upl_resp['url']
 
-    if enhance_face:
-        sr_image = replicate.run(
-            "tencentarc/gfpgan:0fbacf7afc6c144e5be9767cff80f25aff23e52b0708f17e20f9879b2f21516c",
-            input={"img": image_url,
-                   "scale": 4,
-                   "version": "v1.4"}
-        )
-    else: 
-        
-        sr_image = replicate.run(
-            "cjwbw/real-esrgan:d0ee3d708c9b911f122a4ad90046c5d26a0293b99476d697f6bb7f2e251ce2d4",
-            input={"image": image_url,
-                   "upscale": 4}
-        ) 
-    
-    public_ids = [pub_id]
-    image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
-    return sr_image
-    
+    return pub_id, image_url
 
+
+def get_result(job_id):
+    url = f"https://api.prodia.com/v1/job/{job_id}"
+
+    headers = {
+        "accept": "application/json",
+        "X-Prodia-Key": config["prodia"]["prodia_key"]
+    }
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    while data["status"] != "succeeded":
+        response = requests.get(url, headers=headers)
+        data = response.json()
+
+    return data["imageUrl"]
+
+
+def upscale(image_url, model):
+    url_upsc = "https://api.prodia.com/v1/upscale"
+
+    payload_upsc = {
+        "resize": 4,
+        "model": model,
+        "imageUrl": image_url
+    }
+
+    headers_upsc = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "X-Prodia-Key": config["prodia"]["prodia_key"]
+    }
+
+    response_upsc = requests.post(url_upsc, json=payload_upsc, headers=headers_upsc)
+    data_upsc = response_upsc.json()
+    sr_image_url = get_result(data_upsc["job"])
+
+    return sr_image_url
+
+
+def process_image(img_file, enhance_face):
+
+    uploaded = upload_to_cloudinary_and_get_id_url(img_file)
+    image_url = uploaded[1]
+
+    if enhance_face:
+        url_FE = "https://api.prodia.com/v1/facerestore"
+
+        payload_FE = {
+            "imageUrl": image_url
+        }
+
+        headers_FE = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "X-Prodia-Key": config["prodia"]["prodia_key"]
+        }
+
+        response_FE = requests.post(url_FE, json=payload_FE, headers=headers_FE)
+        data_FE = response_FE.json()
+        enhanced_image_url = get_result(data_FE["job"])
+
+        sr_image_url = upscale(enhanced_image_url, "ESRGAN_4x")
+
+    else: 
+        sr_image_url = upscale(image_url, "SwinIR 4x")
+
+
+    public_ids = [uploaded[0]]
+    image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
+    return sr_image_url
 
 
 @app.route("/")
