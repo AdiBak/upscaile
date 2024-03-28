@@ -28,7 +28,7 @@ cloudinary.config(
     secure=True,
 )
 
-os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
+#os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
