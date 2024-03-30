@@ -40,6 +40,23 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def image_appropriate(image_url):
+    url = "https://api.moderatecontent.com/moderate/?"
+    querystring = {
+        "url": image_url,
+        "key": os.environ("moderate-content-key")
+    }
+
+    response = requests.get(url, data="",headers={},params=querystring)
+    data = response.json()
+
+    if data["rating_label"] == "everyone" or data["rating_label"] == "teen":
+        return True
+    elif data["rating_label"] == "adult":
+        return False
+    
+    return False
+
 def upload_to_cloudinary_and_get_id_url(img_file):
     with io.BytesIO() as buf:
         rgb_img = Image.open(img_file).convert('RGB')
@@ -100,6 +117,11 @@ def process_image(img_file, enhance_face):
     uploaded = upload_to_cloudinary_and_get_id_url(img_file)
     image_url = uploaded[1]
 
+    if not image_appropriate(image_url):
+        public_id = [uploaded[0]]
+        image_delete_result = cloudinary.api.delete_resources(public_id, resource_type="image", type="private")
+        return None
+
     if enhance_face:
         url_FE = "https://api.prodia.com/v1/facerestore"
 
@@ -159,8 +181,11 @@ def edit():
 
             processed_img = process_image(file, enhance_face)
 
-            flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
-            
+            if processed_img:
+                flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
+            else:
+                flash("Image is not appropriate", "error")
+
             with open('numUpscales.txt', 'r') as f:
                 t = f.read()
             with open('numUpscales.txt', 'w') as f:
