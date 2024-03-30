@@ -44,7 +44,7 @@ def image_appropriate(image_url):
     url = "https://api.moderatecontent.com/moderate/?"
     querystring = {
         "url": image_url,
-        "key": os.environ["moderate-content-key"]
+        "key": os.environ["moderate_content_key"]
     }
 
     response = requests.get(url, data="",headers={},params=querystring)
@@ -77,7 +77,7 @@ def get_result(job_id):
 
     headers = {
         "accept": "application/json",
-        "X-Prodia-Key": os.environ["X-Prodia-Key"] #config["prodia"]["prodia_key"]
+        "X-Prodia-Key": os.environ["X_Prodia_Key"] #config["prodia"]["prodia_key"]
     }
 
     response = requests.get(url, headers=headers)
@@ -102,7 +102,7 @@ def upscale(image_url, model):
     headers_upsc = {
         "accept": "application/json",
         "content-type": "application/json",
-        "X-Prodia-Key": os.environ["X-Prodia-Key"] # config["prodia"]["prodia_key"]
+        "X-Prodia-Key": os.environ["X_Prodia_Key"] # config["prodia"]["prodia_key"]
     }
 
     response_upsc = requests.post(url_upsc, json=payload_upsc, headers=headers_upsc)
@@ -132,7 +132,7 @@ def process_image(img_file, enhance_face):
         headers_FE = {
             "accept": "application/json",
             "content-type": "application/json",
-            "X-Prodia-Key": os.environ["X-Prodia-Key"] #["prodia"]["prodia_key"]
+            "X-Prodia-Key": os.environ["X_Prodia_Key"] #["prodia"]["prodia_key"]
         }
 
         response_FE = requests.post(url_FE, json=payload_FE, headers=headers_FE)
