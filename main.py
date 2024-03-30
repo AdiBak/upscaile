@@ -44,7 +44,7 @@ def image_appropriate(image_url):
     url = "https://api.moderatecontent.com/moderate/?"
     querystring = {
         "url": image_url,
-        "key": os.environ("moderate-content-key")
+        "key": os.environ["moderate-content-key"]
     }
 
     response = requests.get(url, data="",headers={},params=querystring)
