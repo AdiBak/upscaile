@@ -12,7 +12,6 @@ from pathlib import Path
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-import replicate
 import subprocess
 
 
@@ -27,8 +26,6 @@ cloudinary.config(
     api_secret = os.environ["cloudinary_secret"],
     secure=True,
 )
-
-#os.environ["REPLICATE_API_TOKEN"] = config["replicate"]["api_token"]
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
