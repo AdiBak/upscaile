@@ -14,16 +14,21 @@ import cloudinary.api
 import cloudinary.uploader
 import subprocess
 
-
-'''with open(".github/auth.yaml", 'r') as config_file:
+with open(".github/auth.yaml", 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.Loader)
 
-json.dumps(config, indent=2, sort_keys=True)'''
+json.dumps(config, indent=2, sort_keys=True)
+
+os.environ["cloud_name"] = str(config["cloudinary"]["cloud_name"])
+os.environ["cloudinary_key"] = str(config["cloudinary"]["api_key"])
+os.environ["cloudinary_secret"] = str(config["cloudinary"]["api_secret"])
+os.environ["moderate_content_key"] = str(config["moderation"]["mod_content_key"])
+os.environ["X_Prodia_Key"] = str(config["prodia"]["prodia_key"])
 
 cloudinary.config(
-    cloud_name = os.environ["cloud_name"],
-    api_key = os.environ["cloudinary_key"],
-    api_secret = os.environ["cloudinary_secret"],
+    cloud_name = os.environ["cloud_name"], # config["cloudinary"]["cloud_name"]
+    api_key = os.environ["cloudinary_key"], # config["cloudinary"]["cloudinary_key"]
+    api_secret = os.environ["cloudinary_secret"], # config["cloudinary"]["cloudinary_secret"]
     secure=True,
 )
 
@@ -41,7 +46,7 @@ def image_appropriate(image_url):
     url = "https://api.moderatecontent.com/moderate/?"
     querystring = {
         "url": image_url,
-        "key": os.environ["moderate_content_key"]
+        "key": os.environ["moderate_content_key"] # config["moderation"]["mod_content_key"]
     }
 
     response = requests.get(url, data="",headers={},params=querystring)
@@ -74,7 +79,7 @@ def get_result(job_id):
 
     headers = {
         "accept": "application/json",
-        "X-Prodia-Key": os.environ["X_Prodia_Key"] #config["prodia"]["prodia_key"]
+        "X-Prodia-Key": os.environ["X_Prodia_Key"] # config["prodia"]["prodia_key"]
     }
 
     response = requests.get(url, headers=headers)
@@ -108,6 +113,9 @@ def upscale(image_url, model):
 
     return sr_image_url
 
+def increase_upscale_count():
+    url = "https://counter10.p.rapidapi.com/"
+
 
 def process_image(img_file, enhance_face):
 
@@ -129,7 +137,7 @@ def process_image(img_file, enhance_face):
         headers_FE = {
             "accept": "application/json",
             "content-type": "application/json",
-            "X-Prodia-Key": os.environ["X_Prodia_Key"] #["prodia"]["prodia_key"]
+            "X-Prodia-Key": os.environ["X_Prodia_Key"] # config["prodia"]["prodia_key"]
         }
 
         response_FE = requests.post(url_FE, json=payload_FE, headers=headers_FE)
@@ -180,6 +188,7 @@ def edit():
 
             if processed_img:
                 flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
+
             else:
                 flash("Image is not appropriate", "error")
 
