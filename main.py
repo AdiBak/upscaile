@@ -13,8 +13,9 @@ import cloudinary
 import cloudinary.api
 import cloudinary.uploader
 import subprocess
+from dotenv import load_dotenv
 
-with open(".github/auth.yaml", 'r') as config_file:
+'''with open(".github/auth.yaml", 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.Loader)
 
 json.dumps(config, indent=2, sort_keys=True)
@@ -23,7 +24,9 @@ os.environ["cloud_name"] = str(config["cloudinary"]["cloud_name"])
 os.environ["cloudinary_key"] = str(config["cloudinary"]["api_key"])
 os.environ["cloudinary_secret"] = str(config["cloudinary"]["api_secret"])
 os.environ["moderate_content_key"] = str(config["moderation"]["mod_content_key"])
-os.environ["X_Prodia_Key"] = str(config["prodia"]["prodia_key"])
+os.environ["X_Prodia_Key"] = str(config["prodia"]["prodia_key"])'''
+
+load_dotenv(dotenv_path='.github/envvars.env')
 
 cloudinary.config(
     cloud_name = os.environ["cloud_name"], # config["cloudinary"]["cloud_name"]
