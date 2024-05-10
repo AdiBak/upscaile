@@ -17,4 +17,4 @@ tqdm
 ffmpeg
 python-dotenv
 pymssql
-mysql
+mysql-connector-python
