@@ -16,3 +16,4 @@ torchvision
 tqdm
 ffmpeg
 python-dotenv
+pymssql

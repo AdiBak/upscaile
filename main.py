@@ -14,6 +14,7 @@ import cloudinary.api
 import cloudinary.uploader
 import subprocess
 from dotenv import load_dotenv
+import mysql.connector
 
 '''with open(".github/auth.yaml", 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.Loader)
@@ -29,9 +30,9 @@ os.environ["X_Prodia_Key"] = str(config["prodia"]["prodia_key"])'''
 load_dotenv(dotenv_path='.github/envvars.env')
 
 cloudinary.config(
-    cloud_name = os.environ["cloud_name"], # config["cloudinary"]["cloud_name"]
-    api_key = os.environ["cloudinary_key"], # config["cloudinary"]["cloudinary_key"]
-    api_secret = os.environ["cloudinary_secret"], # config["cloudinary"]["cloudinary_secret"]
+    cloud_name = os.getenv("cloud_name"), # config["cloudinary"]["cloud_name"]
+    api_key = os.getenv("cloudinary_key"), # config["cloudinary"]["cloudinary_key"]
+    api_secret = os.getenv("cloudinary_secret"), # config["cloudinary"]["cloudinary_secret"]
     secure=True,
 )
 
@@ -40,27 +41,25 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app = Flask(__name__)
 app.secret_key = "jjkjkl ssdnobi"
 
+conn = mysql.connector.connect(host='127.0.0.1',
+                       user='root',
+                       password="sqlsqlsql")
+cursor = conn.cursor()
+cursor.execute("CREATE DATABASE IF NOT EXISTS upscales")
+cursor.execute("USE upscales")
+
+query_create_table = """
+CREATE TABLE IF NOT EXISTS upsCount (
+    id INTEGER AUTO_INCREMENT,
+    dummyStr VARCHAR(10) NOT NULL,
+    PRIMARY KEY (id)
+);
+"""
+cursor.execute(query_create_table)
+
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-def image_appropriate(image_url):
-    url = "https://api.moderatecontent.com/moderate/?"
-    querystring = {
-        "url": image_url,
-        "key": os.environ["moderate_content_key"] # config["moderation"]["mod_content_key"]
-    }
-
-    response = requests.get(url, data="",headers={},params=querystring)
-    data = response.json()
-
-    if data["rating_label"] == "everyone" or data["rating_label"] == "teen":
-        return True
-    elif data["rating_label"] == "adult":
-        return False
-    
-    return False
 
 def upload_to_cloudinary_and_get_id_url(img_file):
     with io.BytesIO() as buf:
@@ -82,7 +81,7 @@ def get_result(job_id):
 
     headers = {
         "accept": "application/json",
-        "X-Prodia-Key": os.environ["X_Prodia_Key"] # config["prodia"]["prodia_key"]
+        "X-Prodia-Key": str(os.getenv("X_Prodia_Key")) # config["prodia"]["prodia_key"]
     }
 
     response = requests.get(url, headers=headers)
@@ -107,7 +106,7 @@ def upscale(image_url, model):
     headers_upsc = {
         "accept": "application/json",
         "content-type": "application/json",
-        "X-Prodia-Key": os.environ["X_Prodia_Key"] # config["prodia"]["prodia_key"]
+        "X-Prodia-Key": str(os.getenv("X_Prodia_Key")) # config["prodia"]["prodia_key"]
     }
 
     response_upsc = requests.post(url_upsc, json=payload_upsc, headers=headers_upsc)
@@ -124,11 +123,13 @@ def process_image(img_file, enhance_face):
 
     uploaded = upload_to_cloudinary_and_get_id_url(img_file)
     image_url = uploaded[1]
-
-    if not image_appropriate(image_url):
+    print("url of img: ", image_url)
+    #print(os.getenv("X_Prodia_Key"))
+    '''if not image_appropriate(image_url):
         public_id = [uploaded[0]]
         image_delete_result = cloudinary.api.delete_resources(public_id, resource_type="image", type="private")
-        return None
+        return None'''
+    print("api key ", str(os.getenv("X_Prodia_Key")))
 
     if enhance_face:
         url_FE = "https://api.prodia.com/v1/facerestore"
@@ -140,10 +141,11 @@ def process_image(img_file, enhance_face):
         headers_FE = {
             "accept": "application/json",
             "content-type": "application/json",
-            "X-Prodia-Key": os.environ["X_Prodia_Key"] # config["prodia"]["prodia_key"]
+            "X-Prodia-Key": str(os.getenv("X_Prodia_Key")) # config["prodia"]["prodia_key"]
         }
 
         response_FE = requests.post(url_FE, json=payload_FE, headers=headers_FE)
+        print(response_FE.text)
         data_FE = response_FE.json()
         enhanced_image_url = get_result(data_FE["job"])
 
@@ -157,6 +159,20 @@ def process_image(img_file, enhance_face):
     image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
     return sr_image_url
 
+def increment_in_db(cursor, conn):
+    query = """
+    INSERT INTO upsCount (id, dummyStr)
+    VALUES (0, 'upscaled')
+    ON DUPLICATE KEY UPDATE id=VALUES(id)
+    """
+    cursor.execute(query)
+    conn.commit()
+
+    cursor.execute("""
+    SELECT LAST_INSERT_ID();
+    """)
+    res = cursor.fetchall()
+    print(res[0])
 
 @app.route("/")
 def home():
@@ -185,21 +201,16 @@ def edit():
 
             filename = secure_filename(file.filename)
             enhance_face = request.form.get("faceEnhance")
-            print(enhance_face)
+            #print(enhance_face)
 
             processed_img = process_image(file, enhance_face)
 
             if processed_img:
                 flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
 
+                increment_in_db(cursor, conn)
             else:
                 flash("Image is not appropriate", "error")
-
-            with open('numUpscales.txt', 'r') as f:
-                t = f.read()
-            with open('numUpscales.txt', 'w') as f:
-                print(str(int(t)))
-                f.write(str(int(t) + 1))
 
             #return render_template("index.html", upscaled_img = processed_img)
             return redirect(url_for("home"))
