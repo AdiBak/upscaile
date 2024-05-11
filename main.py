@@ -41,7 +41,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app = Flask(__name__)
 app.secret_key = "jjkjkl ssdnobi"
 
-conn = mysql.connector.connect(host='0.0.0.0',
+conn = mysql.connector.connect(host='localhost',
                        user='root',
                        password="sqlsqlsql")
 cursor = conn.cursor()
