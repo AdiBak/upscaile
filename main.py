@@ -14,7 +14,6 @@ import cloudinary.api
 import cloudinary.uploader
 import subprocess
 from dotenv import load_dotenv
-import mysql.connector
 import redis
 
 '''with open(".github/auth.yaml", 'r') as config_file:
@@ -48,23 +47,6 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
 app.secret_key = "jjkjkl ssdnobi"
-
-'''conn = mysql.connector.connect(host='localhost',
-                       user='root',
-                       password="sqlsqlsql")
-cursor = conn.cursor()
-cursor.execute("CREATE DATABASE IF NOT EXISTS upscales")
-cursor.execute("USE upscales")'''
-
-query_create_table = """
-CREATE TABLE IF NOT EXISTS upsCount (
-    id INTEGER AUTO_INCREMENT,
-    dummyStr VARCHAR(10) NOT NULL,
-    PRIMARY KEY (id)
-);
-"""
-#cursor.execute(query_create_table)
-
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -180,21 +162,6 @@ def process_image(img_file, enhance_face):
     image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
     return sr_image_url
 
-def increment_in_db(cursor, conn):
-    query = """
-    INSERT INTO upsCount (id, dummyStr)
-    VALUES (0, 'upscaled')
-    ON DUPLICATE KEY UPDATE id=VALUES(id)
-    """
-    cursor.execute(query)
-    conn.commit()
-
-    cursor.execute("""
-    SELECT LAST_INSERT_ID();
-    """)
-    res = cursor.fetchall()
-    print(res[0])
-
 
 @app.route("/")
 def home():
@@ -230,7 +197,6 @@ def edit():
             if processed_img:
                 flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
 
-                #increment_in_db(cursor, conn)
                 r.incr('numUpscales') # increment upscale count
                 print(int(str(r.get('numUpscales'), 'utf-8')))
             else:
