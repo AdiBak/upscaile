@@ -15,6 +15,7 @@ import cloudinary.uploader
 import subprocess
 from dotenv import load_dotenv
 import mysql.connector
+import redis
 
 '''with open(".github/auth.yaml", 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.Loader)
@@ -36,17 +37,24 @@ cloudinary.config(
     secure=True,
 )
 
+r = redis.Redis(
+    host = os.getenv('redis_host'),
+    port = int(os.getenv('redis_port')),
+    password = os.getenv('redis_pwd'),
+    ssl=True
+)
+
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
 app.secret_key = "jjkjkl ssdnobi"
 
-conn = mysql.connector.connect(host='localhost',
+'''conn = mysql.connector.connect(host='localhost',
                        user='root',
                        password="sqlsqlsql")
 cursor = conn.cursor()
 cursor.execute("CREATE DATABASE IF NOT EXISTS upscales")
-cursor.execute("USE upscales")
+cursor.execute("USE upscales")'''
 
 query_create_table = """
 CREATE TABLE IF NOT EXISTS upsCount (
@@ -55,7 +63,7 @@ CREATE TABLE IF NOT EXISTS upsCount (
     PRIMARY KEY (id)
 );
 """
-cursor.execute(query_create_table)
+#cursor.execute(query_create_table)
 
 
 def allowed_file(filename):
@@ -77,6 +85,7 @@ def upload_to_cloudinary_and_get_id_url(img_file):
 
 
 def get_result(job_id):
+    print("job id ", job_id)
     url = f"https://api.prodia.com/v1/job/{job_id}"
 
     headers = {
@@ -90,6 +99,7 @@ def get_result(job_id):
     while data["status"] != "succeeded":
         response = requests.get(url, headers=headers)
         data = response.json()
+        print(response.text)
 
     return data["imageUrl"]
 
@@ -114,9 +124,6 @@ def upscale(image_url, model):
     sr_image_url = get_result(data_upsc["job"])
 
     return sr_image_url
-
-def increase_upscale_count():
-    url = "https://counter10.p.rapidapi.com/"
 
 
 def process_image(img_file, enhance_face):
@@ -153,7 +160,21 @@ def process_image(img_file, enhance_face):
 
     else: 
         sr_image_url = upscale(image_url, "SwinIR 4x")
+        '''headers = {
+            # Already added when you pass json=
+            # 'Content-Type': 'application/json',
+            'token': '244b9a54-a727-411d-8866-3f936af16b7d',
+        }
 
+        json_data = {
+            'scale': 4,
+            'image_url': image_url,
+        }
+
+        response = requests.post('https://www.capix.uz/v2/upscaler/v1/', headers=headers, json=json_data)
+        data = response.json()
+        sr_image_url = data['result_url']
+        print(sr_image_url)'''
 
     public_ids = [uploaded[0]]
     image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
@@ -174,9 +195,10 @@ def increment_in_db(cursor, conn):
     res = cursor.fetchall()
     print(res[0])
 
+
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", upscalesCount=int(str(r.get('numUpscales'), 'utf-8')))
 
 
 @app.route("/edit", methods=["GET", "POST"])
@@ -208,7 +230,9 @@ def edit():
             if processed_img:
                 flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
 
-                increment_in_db(cursor, conn)
+                #increment_in_db(cursor, conn)
+                r.incr('numUpscales') # increment upscale count
+                print(int(str(r.get('numUpscales'), 'utf-8')))
             else:
                 flash("Image is not appropriate", "error")
 

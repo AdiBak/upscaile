@@ -144,6 +144,14 @@
             display: inline;
         }
 
+        #totalCount {
+            position: absolute;
+            width: 50%;
+            left: 25%;
+            top: 125%;
+            text-align: center;
+        }
+
         .success-img {
             position: relative;
             top: 0px;
@@ -398,6 +406,7 @@
             <label class="loading">Upscailing...</label>
         </div>
 
+
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, mesg in messages %}
         {% if category == 'error' %}
@@ -411,6 +420,11 @@
     </div>
 
     <div class="container my-4 overallbox">
+        <div id="totalCount">
+            <p id="countxt">{{upscalesCount}} upscales performed</p>
+        </div>
+
+
         <h1 class="fs-2 text pageheader">Upsc'ai'le your image here!</h1>
         <form action="/edit" method="post" enctype="multipart/form-data">
             <div class="input-group mb-3">
