@@ -73,6 +73,8 @@ def image_appropriate(image_url):
         # the rejection probability is provided in output['summary']['reject_prob']
         # and user readable reasons for the rejection are in the array output['summary']['reject_reason']
         return False
+    
+    return True
 
 
 def upload_to_cloudinary_and_get_id_url(img_file):
