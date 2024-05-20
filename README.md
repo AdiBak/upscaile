@@ -8,7 +8,7 @@ _tl;dr:_ Have you ever struggled to enhance your images due to the lack of effec
 
 **Tech Stack**
 
-Prodia for API, Render for deployment, Javascript/HTML/CSS/Bootstrap for frontend, Flask & Redis for backend 
+Prodia for AI API, Cloudinary for image upload API, SightEngine for image moderation API, Render for web app deployment, Javascript/HTML/CSS/Bootstrap for frontend, Flask & Redis for backend 
 
 **How to Use**
 
