@@ -211,7 +211,7 @@ def edit():
                 r.incr('numUpscales') # increment upscale count
                 print(int(str(r.get('numUpscales'), 'utf-8')))
             else:
-                flash("Image is not appropriate", "error")
+                flash("Uploaded image did not pass safety check", "error")
 
             #return render_template("index.html", upscaled_img = processed_img)
             return redirect(url_for("home"))
