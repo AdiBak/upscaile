@@ -48,8 +48,32 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app = Flask(__name__)
 app.secret_key = "jjkjkl ssdnobi"
 
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def image_appropriate(image_url):
+    params = {
+        'url': image_url,
+        'workflow': os.getenv('sighteng_wid'),
+        'api_user': os.getenv('sighteng_user'),
+        'api_secret': os.getenv('sighteng_sec')
+    }
+    r = requests.get('https://api.sightengine.com/1.0/check-workflow.json', params=params)
+
+    output = json.loads(r.text)
+
+    if output['status'] == 'failure':
+        # handle failure
+        return False
+
+    if output['summary']['action'] == 'reject':
+        # handle image rejection
+        # the rejection probability is provided in output['summary']['reject_prob']
+        # and user readable reasons for the rejection are in the array output['summary']['reject_reason']
+        return False
+
 
 def upload_to_cloudinary_and_get_id_url(img_file):
     with io.BytesIO() as buf:
@@ -113,11 +137,12 @@ def process_image(img_file, enhance_face):
     uploaded = upload_to_cloudinary_and_get_id_url(img_file)
     image_url = uploaded[1]
     print("url of img: ", image_url)
-    #print(os.getenv("X_Prodia_Key"))
-    '''if not image_appropriate(image_url):
+    
+    if not image_appropriate(image_url):
         public_id = [uploaded[0]]
         image_delete_result = cloudinary.api.delete_resources(public_id, resource_type="image", type="private")
-        return None'''
+        return None
+    
     print("api key ", str(os.getenv("X_Prodia_Key")))
 
     if enhance_face:
@@ -142,24 +167,10 @@ def process_image(img_file, enhance_face):
 
     else: 
         sr_image_url = upscale(image_url, "SwinIR 4x")
-        '''headers = {
-            # Already added when you pass json=
-            # 'Content-Type': 'application/json',
-            'token': '244b9a54-a727-411d-8866-3f936af16b7d',
-        }
-
-        json_data = {
-            'scale': 4,
-            'image_url': image_url,
-        }
-
-        response = requests.post('https://www.capix.uz/v2/upscaler/v1/', headers=headers, json=json_data)
-        data = response.json()
-        sr_image_url = data['result_url']
-        print(sr_image_url)'''
-
+        
     public_ids = [uploaded[0]]
     image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
+    
     return sr_image_url
 
 
@@ -195,7 +206,7 @@ def edit():
             processed_img = process_image(file, enhance_face)
 
             if processed_img:
-                flash(Markup(f"<p class='success'>Your image has been processed and is available <a href='{processed_img}' target='_blank'>here</a></p>"), "success")
+                flash(Markup(f"<p class='success'>Success! Here is your <a href='{processed_img}' target='_blank'>upscaled image</a></p>"), "success")
 
                 r.incr('numUpscales') # increment upscale count
                 print(int(str(r.get('numUpscales'), 'utf-8')))
