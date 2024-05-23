@@ -138,15 +138,13 @@ def process_image(img_file, enhance_face):
 
     uploaded = upload_to_cloudinary_and_get_id_url(img_file)
     image_url = uploaded[1]
-    print("url of img: ", image_url)
     
-    if not image_appropriate(image_url):
+    # todo: incorporate better moderation
+    '''if not image_appropriate(image_url):
         public_id = [uploaded[0]]
         image_delete_result = cloudinary.api.delete_resources(public_id, resource_type="image", type="private")
-        return None
+        return None''' 
     
-    print("api key ", str(os.getenv("X_Prodia_Key")))
-
     if enhance_face:
         url_FE = "https://api.prodia.com/v1/facerestore"
 
