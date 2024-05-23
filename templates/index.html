@@ -152,6 +152,17 @@
             text-align: center;
         }
 
+        #countxt {
+            animation: color-loop 2s infinite;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        @keyframes color-loop {
+            0% { color: navy; }
+            50% { color: blue; }
+            100% { color: midnightblue; }
+        }
+
         .success-img {
             position: relative;
             top: 0px;
@@ -421,7 +432,7 @@
 
     <div class="container my-4 overallbox">
         <div id="totalCount">
-            <p id="countxt">{{upscalesCount}} upscales performed</p>
+            <p id="countxt">upsc-AI-led {{upscalesCount}} images!</p>
         </div>
 
 
@@ -429,7 +440,7 @@
         <form action="/edit" method="post" enctype="multipart/form-data">
             <div class="input-group mb-3">
 
-                <input class="form-control" name="file" type="file" id="formFile" />
+                <input class="form-control" name="file" type="file" id="formFile" accept="image/*"/>
             </div>
             <div id="faceoptionbox">
                 <input type="checkbox" id="faceEnhanceChoice" name="faceEnhance" value="checkedFace"/>

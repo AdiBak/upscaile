@@ -206,7 +206,7 @@ def edit():
             processed_img = process_image(file, enhance_face)
 
             if processed_img:
-                flash(Markup(f"<p class='success'>Success! Here is your <a href='{processed_img}' target='_blank'>upscaled image</a></p>"), "success")
+                flash(Markup(f"<p class='success'>Success! Here is the link to your <a href='{processed_img}' target='_blank'>upscaled image</a></p>"), "success")
 
                 r.incr('numUpscales') # increment upscale count
                 print(int(str(r.get('numUpscales'), 'utf-8')))
