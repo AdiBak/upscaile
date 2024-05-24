@@ -192,28 +192,33 @@ def edit():
         if file.filename == "":
             flash(Markup("<p class='error'>Please select or drag and drop an image file</p>"), 'error')
             return redirect(request.url)
-        if file and allowed_file(file.filename):
-            blob = file.read()
-            
-            if int(len(blob)/(1024*1024)) > 1:
-                flash("Image exceeded file size limit of 1 MB", "error")
-                return redirect(request.url)
+        if file:
+            if allowed_file(file.filename):
+                blob = file.read()
+                
+                if int(len(blob)/(1024*1024)) > 1:
+                    flash("Image exceeded file size limit of 1 MB", "error")
+                    return redirect(request.url)
 
-            filename = secure_filename(file.filename)
-            enhance_face = request.form.get("faceEnhance")
-            #print(enhance_face)
+                filename = secure_filename(file.filename)
+                enhance_face = request.form.get("faceEnhance")
+                #print(enhance_face)
 
-            processed_img = process_image(file, enhance_face)
+                processed_img = process_image(file, enhance_face)
 
-            if processed_img:
-                flash(Markup(f"<p class='success'>Success! Here is the link to your <a href='{processed_img}' target='_blank'>upscaled image</a></p>"), "success")
+                if processed_img:
+                    flash(Markup(f"<p class='success'>Success! Here is the link to your <a href='{processed_img}' target='_blank'>upscaled image</a></p>"), "success")
 
-                r.incr('numUpscales') # increment upscale count
-                print(int(str(r.get('numUpscales'), 'utf-8')))
+                    r.incr('numUpscales') # increment upscale count
+                    print(int(str(r.get('numUpscales'), 'utf-8')))
+                else:
+                    flash("Uploaded image did not pass safety check", "error")
+
+                #return render_template("index.html", upscaled_img = processed_img)
+                return redirect(url_for("home"))
             else:
-                flash("Uploaded image did not pass safety check", "error")
+                flash("Image uploaded is of incompatible file type", "error")
+                return redirect(url_for("home"))
 
-            #return render_template("index.html", upscaled_img = processed_img)
-            return redirect(url_for("home"))
         
     return render_template("index.html")
