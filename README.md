@@ -10,9 +10,20 @@ _tl;dr:_ Have you ever struggled to enhance your images due to the lack of effec
 
 Prodia for AI API, Cloudinary for image upload API, SightEngine for image moderation API, Render for web app deployment, Javascript/HTML/CSS/Bootstrap for frontend, Flask & Redis for backend 
 
+First, when the user uploads an image, it it sent to Cloudinary so that an accessible URL can be generated. 
+Next, the Prodia API accepts a URL to an image and upscales it using artificial intelligence algorithms like ESRGAN and SWIN-IR. 
+Then, the URL to this upscaled image is fetched from the resulting JSON response and incorporated into the web page. 
+Finally, to ensure data privacy, the original user-uploaded image is immediately deleted from the Cloudinary server.
+
+As a whole, this process takes just about 5-10 seconds.
+
 **How to Use**
 
-Just Drag and Drop or select your image in the input field, and after a few seconds, a link to your upscaled image will be displayed on the screen. It’s that easy! 
+First, drag and drop your image file, or select your image, in the input field.
+Next, check if you want to enhance a face, or leave it unchecked otherwise.
+Then, hit submit.
+
+After a few seconds, a link to your upscaled image will be displayed on the screen. It’s that easy! 
 
 **License**
 
