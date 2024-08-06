@@ -14,7 +14,7 @@ import cloudinary.api
 import cloudinary.uploader
 import subprocess
 from dotenv import load_dotenv
-import redis
+from upstash_redis import Redis
 
 '''with open(".github/auth.yaml", 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.Loader)
@@ -36,12 +36,13 @@ cloudinary.config(
     secure=True,
 )
 
-r = redis.Redis(
+'''r = redis.Redis(
     host = os.getenv('redis_host'),
     port = int(os.getenv('redis_port')),
     password = os.getenv('redis_pwd'),
     ssl=True
-)
+)'''
+r = Redis(url="https://usw2-keen-grizzly-32109.upstash.io", token=os.getenv("redis_rest_token"))
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
@@ -176,7 +177,7 @@ def process_image(img_file, enhance_face):
 
 @app.route("/")
 def home():
-    return render_template("index.html", upscalesCount=int(str(r.get('numUpscales'), 'utf-8')))
+    return render_template("index.html", upscalesCount=int(str(r.get('numUpscales'))))
 
 
 @app.route("/edit", methods=["GET", "POST"])
@@ -210,7 +211,7 @@ def edit():
                     flash(Markup(f"<p class='success'>Success! Here is the link to your <a href='{processed_img}' target='_blank'>upscaled image</a></p>"), "success")
 
                     r.incr('numUpscales') # increment upscale count
-                    print(int(str(r.get('numUpscales'), 'utf-8')))
+                    print(int(str(r.get('numUpscales'))))
                 else:
                     flash("Uploaded image did not pass safety check", "error")
 
