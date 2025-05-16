@@ -1,30 +1,36 @@
-**Motivation**
+## 📌 Motivation
 
-When I tried to enhance my images using AI online, I noticed that many existing sites don't offer a seamless experience – I was equipped with a limited number of "credits" which diminish for every upscale operation, and when they hit 0, the only options were to purchase a pack of credits or a subscription. I didn't want either. The lack of intuitive and free software prompted me to develop a platform that employs AI to upsc'AI'le (hence the name lol) and enhance your images 4x their original resolution. 
+Many AI-powered image enhancement sites limit users with credit systems or paid subscriptions, making it difficult to freely upscale images. I built Upscaile to solve this — a free, intuitive platform that uses AI to upscale and enhance your images up to 4× their original resolution.
 
-Upscaile began primitively, containing only an input file form and a submit button. Gradually, I’ve experimented with different frontend designs, APIs, and libraries in an attempt to maximize usability and efficiency. I currently integrate Prodia’s AI-based enhancement API to perform upscaling, subsequently displaying the link to the new image. 
+What started as a simple upload form and button gradually evolved into a full-featured web app. I experimented with frontend frameworks, APIs, and design iterations to optimize performance and usability. Today, Upscaile integrates Prodia’s AI API for enhancement, giving users a seamless and accessible experience.
 
-_tl;dr:_ Have you ever struggled to enhance your images due to the lack of effective and free AI-based software? I understand your frustration, which is why I have developed a platform to seamlessly upsc'AI'le and enhance your images 4x their original resolution. 
+tl;dr: Tired of paywalls and clunky tools for AI image upscaling? Upscaile lets you freely enhance images 4× their resolution — fast, clean, and free.
 
-**Tech Stack**
+## ⚙️ Tech Stack
+- **Frontend**: HTML, CSS, JavaScript, Bootstrap
+- **Backend**: Flask (Python), Redis (upscale count)
+- **APIs/Services**:
+   - Prodia — AI upscaling (ESRGAN, SwinIR)
+   - Cloudinary — Image upload/storage
+   - SightEngine — Image moderation
+   - Render — Web app deployment
 
-Prodia for AI API, Cloudinary for image upload API, SightEngine for image moderation API, Render for web app deployment, Javascript/HTML/CSS/Bootstrap for frontend, Flask & Redis for backend 
+## 🔄 How It Works
+1. User uploads an image via the web interface.
+2. Image is sent to Cloudinary to generate an accessible URL.
+3. The Prodia API processes the image using AI upscaling models (e.g., ESRGAN, SwinIR).
+4. The enhanced image URL is parsed from the Prodia response and shown to the user.
+5. The original uploaded image is immediately deleted from Cloudinary for privacy.
 
-First, when the user uploads an image, it it sent to Cloudinary so that an accessible URL can be generated. 
-Next, the Prodia API accepts a URL to an image and upscales it using artificial intelligence algorithms like ESRGAN and SWIN-IR. 
-Then, the URL to this upscaled image is fetched from the resulting JSON response and incorporated into the web page. 
-Finally, to ensure data privacy, the original user-uploaded image is immediately deleted from the Cloudinary server.
+All of this happens in just 5–10 seconds.
 
-As a whole, this process takes just about 5-10 seconds.
+## 🚀 How to Use
+1. Upload your image (drag & drop or file select).
+- (Optional) Check the “Enhance Face” box if the image contains faces.
+2. Click Submit.
+3. Wait a few seconds — your upscaled image will be displayed with a shareable link.
 
-**How to Use**
+## 🛡 License
+This project follows the Creative ML OpenRAIL-M License, as specified in Prodia’s Terms of Service.
 
-First, drag and drop your image file, or select your image, in the input field.
-Next, check if you want to enhance a face, or leave it unchecked otherwise.
-Then, hit submit.
-
-After a few seconds, a link to your upscaled image will be displayed on the screen. It’s that easy! 
-
-**License**
-
-Follows the Creative ML OpenRail -M License as stated in Prodia’s TOS.
+Try it out yourself at https://upscaile.onrender.com!
