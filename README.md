@@ -1,26 +1,32 @@
 ## 📌 Motivation
 
-Many AI-powered image enhancement sites limit users with credit systems or paid subscriptions, making it difficult to freely upscale images. I built **Upscaile** to solve this — a free, intuitive platform that uses AI to upscale and enhance your images up to 4× their original resolution.
+Many AI-powered image enhancement sites limit users with credit systems or paywalls, making it frustrating to freely upscale images. I wanted to build an alternative — a simple, fast, and free solution that anyone could use without restriction.
 
-I wanted users to experience the power of modern AI models without the friction of paywalls, account creation, or clunky interfaces.
+This project also gave me an opportunity to explore AI APIs and strengthen my backend skills — especially with Flask, which I’d been meaning to learn through a real-world build.
 
 ---
 
-## 🛠 Development Process
+## 🧱 Development Process
 
-I started by building a simple HTML frontend — just a file input and a submit button — to experiment with file uploads and basic form handling.
+**Upscaile** began as a minimal prototype: just an HTML form with a file input and submit button. From there, I explored several APIs and tools to bring the concept to life.
 
-From there, I explored various APIs for upscaling and hosting. After testing several options, I chose:
+Here’s a rough timeline of how I developed it:
 
-- **Cloudinary** to upload images and generate shareable URLs,
-- **Prodia** for high-quality AI upscaling using models like ESRGAN and SwinIR,
-- **SightEngine** for image moderation to ensure content safety.
+1. **Flask Backend Setup**: Built a basic Flask server to handle image uploads and route requests.
+2. **API Research & Integration**:
+   - Tried various AI upscaling APIs and selected **Prodia** for its performance and simplicity.
+   - Used **Cloudinary** for quick image uploads and public URL generation.
+   - Integrated **SightEngine** for basic moderation to ensure uploaded content is appropriate.
+3. **Frontend Design**:
+   - Started with static HTML/CSS, then added **Bootstrap** for a clean, responsive UI.
+   - Added image carousels to visually compare before and after results.
+4. **Optimization & Privacy**:
+   - Ensured images are deleted from Cloudinary immediately after use.
+   - Added Redis to track total upscale counts.
+5. **Deployment**:
+   - Deployed the app using **Render**, making it publicly accessible.
 
-Once I had a working API pipeline, I built a Flask backend to handle requests, call the APIs, and manage state (like image counts) using Redis.
-
-On the frontend, I gradually introduced Bootstrap for styling and responsiveness, added loading spinners, flash messages, and a carousel to showcase enhanced image comparisons. Throughout, I focused on clean UX, privacy (automatic deletion of originals), and speed.
-
-The final deployed version runs on **Render** and delivers a seamless experience — uploading, processing, and delivering upscaled results in about **5–10 seconds**.
+Throughout the process, I focused on learning Flask, building an intuitive user experience, and keeping the pipeline fast and secure.
 
 ---
 
@@ -39,21 +45,21 @@ The final deployed version runs on **Render** and delivers a seamless experience
 ## 🔄 How It Works
 
 1. User uploads an image through the web interface.
-2. The image is uploaded to **Cloudinary** to generate a public URL.
-3. The **Prodia API** processes the image using AI-based upscaling models (e.g., ESRGAN, SwinIR).
-4. The upscaled image URL is extracted from the response and displayed to the user.
-5. The original image is deleted from Cloudinary immediately to protect privacy.
+2. The image is sent to **Cloudinary** to generate a public URL.
+3. The **Prodia API** upscales the image using AI models.
+4. The resulting high-res image URL is extracted and shown to the user.
+5. The original image is then deleted from Cloudinary to maintain privacy.
 
-⚡️ All of this happens in just **5–10 seconds**.
+⚡️ This entire flow typically takes **5–10 seconds**.
 
 ---
 
 ## 🚀 How to Use
 
 1. Upload your image (drag & drop or file select).
-2. *(Optional)* Check the **“Enhance Face”** box if your image contains faces.
+2. *(Optional)* Check the **“Enhance Face”** box if the image contains faces.
 3. Click **Submit**.
-4. Wait a few seconds — your upscaled image and a shareable link will appear.
+4. Your upscaled image and a shareable link will appear within seconds.
 
 ---
 
@@ -63,4 +69,4 @@ This project follows the **Creative ML OpenRAIL-M License**, as specified in [Pr
 
 ---
 
-👉 **Try it out:** [https://upscaile.onrender.com](https://upscaile.onrender.com)
+👉 **Live Demo**: [https://upscaile.onrender.com](https://upscaile.onrender.com)
