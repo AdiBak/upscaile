@@ -12,6 +12,8 @@ from pathlib import Path
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
+from cloudinary import CloudinaryImage
+import replicate
 import subprocess
 from dotenv import load_dotenv
 from upstash_redis import Redis
@@ -113,26 +115,47 @@ def get_result(job_id):
     return data["imageUrl"]
 
 
-def upscale(image_url, model):
-    url_upsc = "https://api.prodia.com/v1/upscale"
+def upscale(image_url, enhance_face):
+    # url_upsc = "https://api.picsart.io/tools/1.0/upscale/ultra"
 
-    payload_upsc = {
-        "resize": 4,
-        "model": model,
-        "imageUrl": image_url
+    # payload_upsc = {
+    #     "resize": 4,
+    #     "model": model,
+    #     "imageUrl": image_url
+    # }
+
+    # headers_upsc = {
+    #     "accept": "application/json",
+    #     "content-type": "application/json",
+    #     "X-Prodia-Key": str(os.getenv("X_Prodia_Key")) # config["prodia"]["prodia_key"]
+    # }
+
+    # response_upsc = requests.post(url_upsc, json=payload_upsc, headers=headers_upsc)
+    # print("resp=", response_upsc)
+    # data_upsc = response_upsc.json()
+    # print("json=", data_upsc)
+    # sr_image_url = get_result(data_upsc["job"])
+
+    # return sr_image_url
+
+    url = "https://ai-image-upscaler6.p.rapidapi.com/api/image-upscaler"
+
+    payload = {
+        "imageUrl": "https://asset2.qieman.com/user-avatar/20240721/1071394_e15eb706-485d-4604-ad28-ac9830de1fe4.jpg",
+        "source": "rapidapi",
+        "scale": 2
+    }
+    headers = {
+        "x-rapidapi-key": "badaf28f38msh24f7ec58e30ccc9p19a9eejsn690910f07011",
+        "x-rapidapi-host": "ai-image-upscaler6.p.rapidapi.com",
+        "Content-Type": "application/json"
     }
 
-    headers_upsc = {
-        "accept": "application/json",
-        "content-type": "application/json",
-        "X-Prodia-Key": str(os.getenv("X_Prodia_Key")) # config["prodia"]["prodia_key"]
-    }
+    response = requests.post(url, json=payload, headers=headers)
 
-    response_upsc = requests.post(url_upsc, json=payload_upsc, headers=headers_upsc)
-    data_upsc = response_upsc.json()
-    sr_image_url = get_result(data_upsc["job"])
+    print(response.json())
 
-    return sr_image_url
+
 
 
 def process_image(img_file, enhance_face):
@@ -146,28 +169,29 @@ def process_image(img_file, enhance_face):
         image_delete_result = cloudinary.api.delete_resources(public_id, resource_type="image", type="private")
         return None''' 
     
-    if enhance_face:
-        url_FE = "https://api.prodia.com/v1/facerestore"
+    sr_image_url = upscale(image_url, enhance_face)
+    # if enhance_face:
+    #     url_FE = "https://api.prodia.com/v1/facerestore"
 
-        payload_FE = {
-            "imageUrl": image_url
-        }
+    #     payload_FE = {
+    #         "imageUrl": image_url
+    #     }
 
-        headers_FE = {
-            "accept": "application/json",
-            "content-type": "application/json",
-            "X-Prodia-Key": str(os.getenv("X_Prodia_Key")) # config["prodia"]["prodia_key"]
-        }
+    #     headers_FE = {
+    #         "accept": "application/json",
+    #         "content-type": "application/json",
+    #         "X-Prodia-Key": str(os.getenv("X_Prodia_Key")) # config["prodia"]["prodia_key"]
+    #     }
 
-        response_FE = requests.post(url_FE, json=payload_FE, headers=headers_FE)
-        print(response_FE.text)
-        data_FE = response_FE.json()
-        enhanced_image_url = get_result(data_FE["job"])
+    #     response_FE = requests.post(url_FE, json=payload_FE, headers=headers_FE)
+    #     print(response_FE.text)
+    #     data_FE = response_FE.json()
+    #     enhanced_image_url = get_result(data_FE["job"])
 
-        sr_image_url = upscale(enhanced_image_url, "ESRGAN_4x")
+    #     sr_image_url = upscale(enhanced_image_url, "ESRGAN_4x")
 
-    else: 
-        sr_image_url = upscale(image_url, "SwinIR 4x")
+    # else: 
+    #     sr_image_url = upscale(image_url, "SwinIR 4x")
         
     public_ids = [uploaded[0]]
     image_delete_result = cloudinary.api.delete_resources(public_ids, resource_type="image", type="private")
@@ -223,3 +247,6 @@ def edit():
 
         
     return render_template("index.html")
+
+if __name__ == "__main__":
+    app.run(debug=True, host="127.0.0.1", port=5000)

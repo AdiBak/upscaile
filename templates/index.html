@@ -106,6 +106,7 @@
         }
 
         .flashbox {
+            margin-top: 40px;
             left: 50%;
             top: 12%;
             height: 50px;
@@ -184,7 +185,7 @@
             position: relative;
             top: 0px;
             color: mediumseagreen;
-            margin-left: 215px;
+            margin-left: 33%;
             display: inline;
         }
 
@@ -263,7 +264,7 @@
             max-height: 30vw;
             max-width: 39vw;
             top: 10%;
-            position: relative;
+            position: absolute;
             margin-left: 3px;
         }
 
@@ -281,7 +282,7 @@
             width: 30vw;
             top: 10%;
             position: absolute;
-            /*margin-left: 70%;*/
+            /*margin-left: 5%;*/
             left: 100%;
             transform: translate(-100%);
         }
@@ -432,7 +433,7 @@
         {% elif category == 'success' %}
         <img src="https://freepngimg.com/save/18343-success-png-image/1200x1200" class="success-img">
         {% endif %}
-        <label class="{{ category }}">{{ mesg }}</label>
+        <label class="{{ category }}">{{ mesg|safe}}</label>
         {% endfor %}
         {% endwith %}
     </div>
@@ -449,6 +450,19 @@
 
                 <input class="form-control" name="file" type="file" id="formFile" accept="image/*"/>
             </div>
+            
+            <!-- Upscale Factor Selection -->
+            <div class="upscale-options mb-3" style="text-align: center; margin-top: 20px;">
+                <label for="upscale_factor" style="font-family: 'Wix Madefor Text', sans-serif; font-size: 14pt; margin-right: 15px;">
+                    Upscale Factor:
+                </label>
+                <select name="upscale_factor" id="upscale_factor" style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Wix Madefor Text', sans-serif;">
+                    <option value="2">2x</option>
+                    <option value="3">3x</option>
+                    <option value="4">4x</option>
+                </select>
+            </div>
+            
             <div class="faceAndSubmit">
                 <div id="faceoptionbox">
                     <input type="checkbox" id="faceEnhanceChoice" name="faceEnhance" value="checkedFace"/>
@@ -472,17 +486,13 @@
             </div>
 
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="parent d-flex justify-content-center">
-                        <img id="lowres1"
-                            src="https://consolidatedlabel.com/app/uploads/2007/10/low-res-72dpi.jpg">
-                    </div>
+                <div class="carousel-item active d-flex justify-content-center align-items-center" style="height: 350px;">
+                    <img id="lowres1"
+                        src="https://consolidatedlabel.com/app/uploads/2007/10/low-res-72dpi.jpg" class="d-block" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                 </div>
-                <div class="carousel-item">
-                    <div class="parent d-flex justify-content-center">
-                        <img id="highres1" 
-                            src="https://i.ibb.co/PM8ZNX3/camelhigh.png">
-                    </div>
+                <div class="carousel-item d-flex justify-content-center align-items-center" style="height: 350px;">
+                    <img id="highres1" 
+                        src="https://i.ibb.co/PM8ZNX3/camelhigh.png" class="d-block" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                 </div>
 
             </div>
@@ -507,17 +517,13 @@
             </div>
 
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="parent d-flex justify-content-center">
-                        <img id="lowres2"
-                            src="https://user-images.githubusercontent.com/3199888/37054504-089d7a00-214d-11e8-8982-ca836f7a4460.jpg">
-                    </div>
+                <div class="carousel-item active d-flex justify-content-center align-items-center" style="height: 350px;">
+                    <img id="lowres2"
+                        src="https://user-images.githubusercontent.com/3199888/37054504-089d7a00-214d-11e8-8982-ca836f7a4460.jpg" class="d-block" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                 </div>
-                <div class="carousel-item">
-                    <div class="parent d-flex justify-content-center">
-                        <img id="highres2" 
-                            src="https://user-images.githubusercontent.com/111052839/184109441-27dcd3db-5e28-47d5-832d-6e25a2b06f7c.jpg">
-                    </div>
+                <div class="carousel-item d-flex justify-content-center align-items-center" style="height: 350px;">
+                    <img id="highres2" 
+                        src="https://user-images.githubusercontent.com/111052839/184109441-27dcd3db-5e28-47d5-832d-6e25a2b06f7c.jpg" class="d-block" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                 </div>
 
             </div>
@@ -542,17 +548,13 @@
             </div>
 
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="parent d-flex justify-content-center">
-                        <img id="lowres3"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuYiVEpzU381z1yRC1YdILQJlqvdat-0QL9g&usqp=CAU">
-                    </div>
+                <div class="carousel-item active d-flex justify-content-center align-items-center" style="height: 350px;">
+                    <img id="lowres3"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuYiVEpzU381z1yRC1YdILQJlqvdat-0QL9g&usqp=CAU" class="d-block" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                 </div>
-                <div class="carousel-item">
-                    <div class="parent d-flex justify-content-center">
-                        <img id="highres3" 
-                            src="https://i.ibb.co/KXgJpKr/c8e40640-6e31-42fb-8c16-732653835f94.png">
-                    </div>
+                <div class="carousel-item d-flex justify-content-center align-items-center" style="height: 350px;">
+                    <img id="highres3" 
+                        src="https://i.ibb.co/KXgJpKr/c8e40640-6e31-42fb-8c16-732653835f94.png" class="d-block" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                 </div>
 
             </div>
