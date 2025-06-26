@@ -1,114 +1,36 @@
-# Upscaile - AI Image Upscaler
+## 📌 Motivation
 
-A Flask web application that uses AILabTools API to upscale images with AI-powered enhancement.
+Many AI-powered image enhancement sites limit users with credit systems or paid subscriptions, making it difficult to freely upscale images. I built Upscaile to solve this — a free, intuitive platform that uses AI to upscale and enhance your images up to 4× their original resolution.
 
-## Features
+What started as a simple upload form and button gradually evolved into a full-featured web app. I experimented with frontend frameworks, APIs, and design iterations to optimize performance and usability. Today, Upscaile integrates Prodia’s AI API for enhancement, giving users a seamless and accessible experience.
 
-- **AI-Powered Upscaling**: Uses AILabTools API for high-quality image upscaling
-- **Face Enhancement**: Optional face enhancement mode for portrait images
-- **Multiple Upscale Factors**: Support for 2x, 3x, and 4x upscaling
-- **Content Moderation**: Optional image content moderation using Sightengine
-- **Cloud Storage**: Temporary image storage using Cloudinary
-- **Statistics Tracking**: Redis-based tracking of processed images
+tl;dr: Tired of paywalls and clunky tools for AI image upscaling? Upscaile lets you freely enhance images 4× their resolution — fast, clean, and free.
 
-## Setup
+## ⚙️ Tech Stack
+- **Frontend**: HTML, CSS, JavaScript, Bootstrap
+- **Backend**: Flask (Python), Redis (upscale count)
+- **APIs/Services**:
+   - Prodia — AI upscaling (ESRGAN, SwinIR)
+   - Cloudinary — Image upload/storage
+   - SightEngine — Image moderation
+   - Render — Web app deployment
 
-### 1. Install Dependencies
+## 🔄 How It Works
+1. User uploads an image via the web interface.
+2. Image is sent to Cloudinary to generate an accessible URL.
+3. The Prodia API processes the image using AI upscaling models (e.g., ESRGAN, SwinIR).
+4. The enhanced image URL is parsed from the Prodia response and shown to the user.
+5. The original uploaded image is immediately deleted from Cloudinary for privacy.
 
-```bash
-pip install -r requirements.txt
-```
+All of this happens in just 5–10 seconds.
 
-### 2. Environment Variables
+## 🚀 How to Use
+1. Upload your image (drag & drop or file select).
+- (Optional) Check the “Enhance Face” box if the image contains faces.
+2. Click Submit.
+3. Wait a few seconds — your upscaled image will be displayed with a shareable link.
 
-Create a `.github/envvars.env` file with the following variables:
+## 🛡 License
+This project follows the Creative ML OpenRAIL-M License, as specified in Prodia’s Terms of Service.
 
-```env
-# Cloudinary Configuration
-cloud_name=your_cloudinary_cloud_name
-cloudinary_key=your_cloudinary_api_key
-cloudinary_secret=your_cloudinary_api_secret
-
-# AILabTools API (Required)
-ailab_api_key=your_ailabtools_api_key
-
-# Redis Configuration
-redis_rest_token=your_redis_token
-
-# Sightengine (Optional - for content moderation)
-sighteng_wid=your_sightengine_workflow_id
-sighteng_user=your_sightengine_user
-sighteng_sec=your_sightengine_secret
-```
-
-### 3. Get AILabTools API Key
-
-1. Visit [AILabTools](https://www.ailabtools.com/)
-2. Sign up for an account
-3. Get your API key from the dashboard
-4. Add it to your environment variables as `ailab_api_key`
-
-### 4. Run the Application
-
-```bash
-python app.py
-```
-
-The application will be available at `http://127.0.0.1:5000`
-
-## API Integration
-
-This application integrates with the [AILabTools Image Upscaler API](https://www.ailabtools.com/doc/ai-image/enhance/image-lossless-enlargement/api) for high-quality image upscaling.
-
-### Supported Features
-
-- **Upscale Factors**: 2x, 3x, 4x magnification
-- **Output Formats**: PNG, JPG, BMP
-- **Enhancement Modes**: 
-  - Base mode: Stable super-resolution effect
-  - Enhancement mode: Enhanced clarity and sharpness
-- **Quality Control**: Adjustable output quality for JPG format
-
-### Image Requirements
-
-- **Formats**: JPEG, JPG, PNG, BMP
-- **Size**: Maximum 3 MB
-- **Resolution**: Between 32x32px and 1920x1080px
-
-## Project Structure
-
-```
-upscaile/
-├── app.py                 # Main Flask application
-├── config.py             # Configuration settings
-├── services/             # Service modules
-│   ├── __init__.py
-│   ├── ailab_service.py  # AILabTools API integration
-│   ├── cloudinary_service.py  # Cloudinary operations
-│   ├── image_processor.py     # Main image processing workflow
-│   ├── moderation_service.py  # Content moderation
-│   └── redis_service.py       # Statistics tracking
-├── utils/                # Utility functions
-│   ├── __init__.py
-│   └── file_utils.py     # File validation and processing
-├── templates/            # HTML templates
-│   └── index.html
-├── requirements.txt      # Python dependencies
-└── README.md            # This file
-```
-
-## Usage
-
-1. Upload an image file (PNG, JPG, JPEG)
-2. Choose upscale factor (2x, 3x, 4x)
-3. Optionally enable face enhancement
-4. Click "Upscale" to process
-5. Download the upscaled image from the provided link
-
-## Deployment
-
-The application is configured for deployment on Vercel with the included `vercel.json` configuration.
-
-## License
-
-This project is open source and available under the MIT License.
+Try it out yourself at https://upscaile.onrender.com!
