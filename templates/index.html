@@ -25,7 +25,7 @@
 <body>
 
     <div class="container-fullwidth">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="#"><img class="logoimage"
                         src="https://i.ibb.co/V3yhFMC/possibleicon.png"></a>
@@ -73,224 +73,230 @@
         {% endwith %}
     </div>
 
-    <div class="container my-4 overallbox form-section">
-        <div id="totalCount">
-            <p id="countxt">upsc-AI-led {{upscalesCount}} images!</p>
-        </div>
+    <div class="main-section">
+        <div class="container my-4 overallbox form-section">
+            <div id="totalCount">
+                <p id="countxt">upsc-AI-led {{upscalesCount}} images!</p>
+            </div>
 
-        <h1 class="fs-2 text pageheader">Upsc'ai'le your image here!</h1>
-        <form action="/edit" method="post" enctype="multipart/form-data">
-            <div class="input-group mb-3">
+            <h1 class="fs-2 text pageheader">Upsc'ai'le your image here!</h1>
+            <form action="/edit" method="post" enctype="multipart/form-data">
+                <div class="input-group mb-3">
 
-                <input class="form-control" name="file" type="file" id="formFile" accept="image/*"/>
-            </div>
+                    <input class="form-control" name="file" type="file" id="formFile" accept="image/*"/>
+                </div>
+                
+                <!-- Upscale Factor Selection -->
+                <div class="upscale-options mb-3" style="text-align: center; margin-top: 20px;">
+                    <label for="upscale_factor" style="font-family: 'Wix Madefor Text', sans-serif; font-size: 14pt; margin-right: 15px;">
+                        Upscale Factor:
+                    </label>
+                    <select name="upscale_factor" id="upscale_factor" style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Wix Madefor Text', sans-serif;">
+                        <option value="2">2x</option>
+                        <option value="3">3x</option>
+                        <option value="4">4x</option>
+                    </select>
+                </div>
+                
+                <div class="faceAndSubmit">
+                    <div id="faceoptionbox">
+                        <input type="checkbox" id="faceEnhanceChoice" name="faceEnhance" value="checkedFace"/>
+                        <label id="faceEnhanceLabel" for="faceEnhance">Enhance Face</label>
+                      </div>
+                    <button type="submit" class="btn btn-success" id="inputGroupFileAddon04"
+                        onclick="enableSpinner();">Submit</button>
+                </div>
+                
+            </form>
             
-            <!-- Upscale Factor Selection -->
-            <div class="upscale-options mb-3" style="text-align: center; margin-top: 20px;">
-                <label for="upscale_factor" style="font-family: 'Wix Madefor Text', sans-serif; font-size: 14pt; margin-right: 15px;">
-                    Upscale Factor:
-                </label>
-                <select name="upscale_factor" id="upscale_factor" style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Wix Madefor Text', sans-serif;">
-                    <option value="2">2x</option>
-                    <option value="3">3x</option>
-                    <option value="4">4x</option>
-                </select>
-            </div>
-            
-            <div class="faceAndSubmit">
-                <div id="faceoptionbox">
-                    <input type="checkbox" id="faceEnhanceChoice" name="faceEnhance" value="checkedFace"/>
-                    <label id="faceEnhanceLabel" for="faceEnhance">Enhance Face</label>
-                  </div>
-                <button type="submit" class="btn btn-success" id="inputGroupFileAddon04"
-                    onclick="enableSpinner();">Submit</button>
-            </div>
-            
-        </form>
-        
-    </div>
-
-    <div class="sampleimg" id="samplesdiv">
-        <p id="sampleheader">Product Demo: 4x enhancement leads to stunning results </p>
-        <!-- Top row of carousels -->
-        <div class="carousel-row-container">
-            <div class="carousel-col" style="left: 20%;">
-                <!-- Carousel 1: Camel -->
-                <div id="carouselExample1" class="carousel slide mb-4" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="https://consolidatedlabel.com/app/uploads/2007/10/low-res-72dpi.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-secondary">Original</span>
-                      </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img src="https://i.ibb.co/PM8ZNX3/camelhigh.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-success">Enhanced</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample1" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample1" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </button>
-                </div>
-            </div>
-            <div class="carousel-col" style="left: 50%;">
-                <!-- Carousel 2: Portrait -->
-                <div id="carouselExample2" class="carousel slide mb-4" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="https://user-images.githubusercontent.com/3199888/37054504-089d7a00-214d-11e8-8982-ca836f7a4460.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-secondary">Original</span>
-                      </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img src="https://user-images.githubusercontent.com/111052839/184109441-27dcd3db-5e28-47d5-832d-6e25a2b06f7c.jpg" class="d-block w-100" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-success">Enhanced</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </button>
-                </div>
-            </div>
-            <div class="carousel-col" style="left: 80%;">
-                <!-- Carousel 3: Path -->
-                <div id="carouselExample3" class="carousel slide mb-4" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuYiVEpzU381z1yRC1YdILQJlqvdat-0QL9g&usqp=CAU" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-secondary">Original</span>
-                      </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img src="https://i.ibb.co/KXgJpKr/c8e40640-6e31-42fb-8c16-732653835f94.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-success">Enhanced</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample3" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample3" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </button>
-                </div>
-            </div>
-        </div>
-        <!-- Bottom row of carousels -->
-        <div class="carousel-row-container">
-            <div class="carousel-col" style="left: 20%;">
-                <!-- Carousel 4 -->
-                <div id="carouselExample4" class="carousel slide mb-4" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="https://i.ibb.co/7dbfSt50/images.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-secondary">Original</span>
-                      </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img src="https://i.ibb.co/21xm4WJj/101015-65dac732-3588-7bea-b0e6-d8c085b85d9b-1751076615.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-success">Enhanced</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample4" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample4" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </button>
-                </div>
-            </div>
-            <div class="carousel-col" style="left: 50%;">
-                <!-- Carousel 5 -->
-                <div id="carouselExample5" class="carousel slide mb-4" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="https://i.ibb.co/xKqfjHCj/istockphoto-1191071537-612x612.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-secondary">Original</span>
-                      </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img src="https://i.ibb.co/BHqHJsvd/101712-3a9aaf37-4d91-19c7-4c16-24913b807ae5-1751077032.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-success">Enhanced</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample5" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample5" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </button>
-                </div>
-            </div>
-            <div class="carousel-col" style="left: 80%;">
-                <!-- Carousel 6 -->
-                <div id="carouselExample6" class="carousel slide mb-4" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="https://i.ibb.co/9kYk3t2W/360-F-132169192-hl-O3x0-SGk7irw-XHJ2-UUZU93-I3-PPHVte2.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-secondary">Original</span>
-                      </div>
-                    </div>
-                    <div class="carousel-item">
-                      <img src="https://i.ibb.co/RGbch7dj/102902-7d05ed28-6492-02e8-0b92-e9d1fdf5c499-1751077742.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
-                      <div class="carousel-caption d-none d-md-block">
-                        <span class="badge bg-success">Enhanced</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample6" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample6" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </button>
-                </div>
-            </div>
         </div>
     </div>
 
-    <div id="aboutdiv">
-        <p id="aboutpara">
-            Have you ever struggled to enhance your images due to the lack of effective
-            and convenient software? I understand your frustration, which is why I
-            have developed a simple, intuitive platform that uses AI to upsc"AI"le 
-            and enhance your images 4x their original resolution. 
-            <br><br>
+    <div class="demo-section">
+        <div class="sampleimg" id="samplesdiv">
+            <p id="sampleheader">Product Demo: 4x enhancement leads to stunning results </p>
+            <!-- Top row of carousels -->
+            <div class="carousel-row-container">
+                <div class="carousel-col" style="left: 20%;">
+                    <!-- Carousel 1: Camel -->
+                    <div id="carouselExample1" class="carousel slide mb-4" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="https://consolidatedlabel.com/app/uploads/2007/10/low-res-72dpi.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-secondary">Original</span>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img src="https://i.ibb.co/PM8ZNX3/camelhigh.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-success">Enhanced</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample1" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample1" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                      </button>
+                    </div>
+                </div>
+                <div class="carousel-col" style="left: 50%;">
+                    <!-- Carousel 2: Portrait -->
+                    <div id="carouselExample2" class="carousel slide mb-4" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="https://user-images.githubusercontent.com/3199888/37054504-089d7a00-214d-11e8-8982-ca836f7a4460.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-secondary">Original</span>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img src="https://user-images.githubusercontent.com/111052839/184109441-27dcd3db-5e28-47d5-832d-6e25a2b06f7c.jpg" class="d-block w-100" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-success">Enhanced</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                      </button>
+                    </div>
+                </div>
+                <div class="carousel-col" style="left: 80%;">
+                    <!-- Carousel 3: Path -->
+                    <div id="carouselExample3" class="carousel slide mb-4" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuYiVEpzU381z1yRC1YdILQJlqvdat-0QL9g&usqp=CAU" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-secondary">Original</span>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img src="https://i.ibb.co/KXgJpKr/c8e40640-6e31-42fb-8c16-732653835f94.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-success">Enhanced</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample3" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample3" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                      </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom row of carousels -->
+            <div class="carousel-row-container">
+                <div class="carousel-col" style="left: 20%;">
+                    <!-- Carousel 4 -->
+                    <div id="carouselExample4" class="carousel slide mb-4" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="https://i.ibb.co/7dbfSt50/images.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-secondary">Original</span>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img src="https://i.ibb.co/21xm4WJj/101015-65dac732-3588-7bea-b0e6-d8c085b85d9b-1751076615.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-success">Enhanced</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample4" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample4" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                      </button>
+                    </div>
+                </div>
+                <div class="carousel-col" style="left: 50%;">
+                    <!-- Carousel 5 -->
+                    <div id="carouselExample5" class="carousel slide mb-4" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="https://i.ibb.co/xKqfjHCj/istockphoto-1191071537-612x612.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-secondary">Original</span>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img src="https://i.ibb.co/BHqHJsvd/101712-3a9aaf37-4d91-19c7-4c16-24913b807ae5-1751077032.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-success">Enhanced</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample5" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample5" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                      </button>
+                    </div>
+                </div>
+                <div class="carousel-col" style="left: 80%;">
+                    <!-- Carousel 6 -->
+                    <div id="carouselExample6" class="carousel slide mb-4" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="https://i.ibb.co/9kYk3t2W/360-F-132169192-hl-O3x0-SGk7irw-XHJ2-UUZU93-I3-PPHVte2.jpg" class="d-block low-res-img" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-secondary">Original</span>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <img src="https://i.ibb.co/RGbch7dj/102902-7d05ed28-6492-02e8-0b92-e9d1fdf5c499-1751077742.png" class="d-block w-100" style="object-fit: contain; height: 300px;">
+                          <div class="carousel-caption d-none d-md-block">
+                            <span class="badge bg-success">Enhanced</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample6" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample6" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                      </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            Powered by <a href="https://render.com/" target="_blank">Render</a>, <a href="https://ailabtools.com/" target=”_blank”>AILabTools</a>,
-            <a href="https://cloudinary.com/">Cloudinary</a> and <a href="https://sightengine.com/">SightEngine</a> 
+    <div class="about-section">
+        <div id="aboutdiv">
+            <p id="aboutpara">
+                Have you ever struggled to enhance your images due to the lack of effective
+                and convenient software? I understand your frustration, which is why I
+                have developed a simple, intuitive platform that uses AI to upsc"AI"le 
+                and enhance your images 4x their original resolution. 
+                <br><br>
 
-            <br>
-            and created by <a href="https://github.com/AdiBak/" target=”_blank”>Me</a> &#128578;.
-            <br><br>
+                Powered by <a href="https://render.com/" target="_blank">Render</a>, <a href="https://prodia.com/" target=”_blank”>Prodia</a>,
+                <a href="https://cloudinary.com/">Cloudinary</a> and <a href="https://sightengine.com/">SightEngine</a> 
 
-            Give it a try!</p>
+                <br>
+                and created by <a href="https://github.com/AdiBak/" target=”_blank”>Me</a> &#128578;.
+                <br><br>
 
-            <br><br>
-            <a class="icon-link icon-link-hover" id="githubicon" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="https://github.com/AdiBak/upscaile" target="_blank">
-                <img id="githubicon" src="https://cdns.iconmonstr.com/wp-content/releases/preview/2012/240/iconmonstr-github-1.png">
-              </a>
+                Give it a try!</p>
+
+                <br><br>
+                <a class="icon-link icon-link-hover" id="githubicon" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="https://github.com/AdiBak/upscaile" target="_blank">
+                    <img id="githubicon" src="https://cdns.iconmonstr.com/wp-content/releases/preview/2012/240/iconmonstr-github-1.png">
+                  </a>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
