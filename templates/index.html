@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWHTHQGZNB"></script>
     <script>
@@ -42,10 +43,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#aboutdiv">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-bs-toggle="collapse"
-                                data-bs-target=".navbar-collapse.show">Contact</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -74,41 +71,71 @@
     </div>
 
     <div class="main-section">
-        <div class="container my-4 overallbox form-section">
-            <div id="totalCount">
-                <p id="countxt">upsc-AI-led {{upscalesCount}} images!</p>
+        <div class="main-flex-row">
+            <!-- Left: Form -->
+            <div class="container my-4 overallbox form-section" style="flex: 1; min-width: 320px; max-width: 500px;">
+                <div id="totalCount">
+                    <p id="countxt">upsc-AI-led {{upscalesCount}} images!</p>
+                </div>
+
+                <h1 class="fs-2 text pageheader">Upsc'ai'le your image here!</h1>
+                <form action="/edit" method="post" enctype="multipart/form-data" id="upscaleForm">
+                    <div class="input-group mb-3">
+                        <input class="form-control" name="file" type="file" id="formFile" accept="image/*"/>
+                    </div>
+                    <!-- Upscale Factor Selection -->
+                    <div class="upscale-options mb-3" style="text-align: center; margin-top: 20px;">
+                        <label for="upscale_factor" style="font-family: 'Wix Madefor Text', sans-serif; font-size: 14pt;">
+                            Upscale Factor:
+                        </label>
+                        <select name="upscale_factor" id="upscale_factor" style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Wix Madefor Text', sans-serif;">
+                            <option value="2">2x</option>
+                            <option value="3">3x</option>
+                            <option value="4">4x</option>
+                        </select>
+                    </div>
+                    <div class="faceAndSubmit" style="display: flex; text-align: center; margin-left: 175px;">
+                        <button type="submit" class="btn btn-success" id="inputGroupFileAddon04"
+                            onclick="enableSpinner();">Submit</button>
+                    </div>
+                </form>
             </div>
-
-            <h1 class="fs-2 text pageheader">Upsc'ai'le your image here!</h1>
-            <form action="/edit" method="post" enctype="multipart/form-data">
-                <div class="input-group mb-3">
-
-                    <input class="form-control" name="file" type="file" id="formFile" accept="image/*"/>
+            <!-- Center: Progress Bar -->
+            <div class="progress-area" style="display: none; min-width: 120px; margin: 0 16px; align-items: center; justify-content: center; flex-direction: column;">
+                <!-- Progress bar will be shown in the enhanced image area instead -->
+            </div>
+            <!-- Right: Preview -->
+            <div class="preview-area" style="flex: 1.2; display: flex; align-items: center; justify-content: center; min-width: 320px;">
+                <div style="width: 100%;">
+                    <div class="comparison-title">See the Difference!</div>
+                    <div class="preview-images-row">
+                        <div class="preview-img-col">
+                            <img src="{{ orig_img }}" alt="Original" class="preview-img preview-img-original" id="originalPreview">
+                            <div class="preview-label">Original</div>
+                        </div>
+                        <div class="preview-img-col">
+                            <div id="enhancedArea">
+                                <img src="{{ enh_img }}" alt="Enhanced" class="preview-img preview-img-enhanced" id="enhancedPreview">
+                                <div class="preview-label" id="enhancedLabel">Enhanced
+                                    {% if show_download %}
+                                    <a href="{{ enh_img }}" download target="_blank" class="download-icon" title="Download">
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Progress bar for enhanced area -->
+                            <div id="enhancedProgress" style="display: none; text-align: center;">
+                                <div class="progress" style="height: 8px; width: 100%; margin: 20px 0;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                        role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <div class="preview-label">Upscaling...</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Upscale Factor Selection -->
-                <div class="upscale-options mb-3" style="text-align: center; margin-top: 20px;">
-                    <label for="upscale_factor" style="font-family: 'Wix Madefor Text', sans-serif; font-size: 14pt; margin-right: 15px;">
-                        Upscale Factor:
-                    </label>
-                    <select name="upscale_factor" id="upscale_factor" style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; font-family: 'Wix Madefor Text', sans-serif;">
-                        <option value="2">2x</option>
-                        <option value="3">3x</option>
-                        <option value="4">4x</option>
-                    </select>
-                </div>
-                
-                <div class="faceAndSubmit">
-                    <div id="faceoptionbox">
-                        <input type="checkbox" id="faceEnhanceChoice" name="faceEnhance" value="checkedFace"/>
-                        <label id="faceEnhanceLabel" for="faceEnhance">Enhance Face</label>
-                      </div>
-                    <button type="submit" class="btn btn-success" id="inputGroupFileAddon04"
-                        onclick="enableSpinner();">Submit</button>
-                </div>
-                
-            </form>
-            
+            </div>
         </div>
     </div>
 
@@ -283,7 +310,7 @@
                 and enhance your images 4x their original resolution. 
                 <br><br>
 
-                Powered by <a href="https://render.com/" target="_blank">Render</a>, <a href="https://prodia.com/" target=”_blank”>Prodia</a>,
+                Powered by <a href="https://render.com/" target="_blank">Render</a>, <a href="https://huggingface.co/spaces/finegrain/finegrain-image-enhancer" target=”_blank”>Hugging Face</a>,
                 <a href="https://cloudinary.com/">Cloudinary</a> and <a href="https://sightengine.com/">SightEngine</a> 
 
                 <br>
@@ -291,12 +318,33 @@
                 <br><br>
 
                 Give it a try!</p>
-
-                <br><br>
-                <a class="icon-link icon-link-hover" id="githubicon" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="https://github.com/AdiBak/upscaile" target="_blank">
-                    <img id="githubicon" src="https://cdns.iconmonstr.com/wp-content/releases/preview/2012/240/iconmonstr-github-1.png">
-                  </a>
         </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="how-it-works-section">
+      <h2 class="how-title">How It Works</h2>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="how-icon"><i class="bi bi-upload"></i></div>
+          <div class="how-step-title">Upload Image</div>
+          <div class="how-step-desc">Choose any image you want to upscale and enhance. No signup required!</div>
+        </div>
+        <div class="how-step">
+          <div class="how-icon"><i class="bi bi-sliders"></i></div>
+          <div class="how-step-title">Choose Settings</div>
+          <div class="how-step-desc">Select your desired upscale factor and submit. The AI does the rest.</div>
+        </div>
+        <div class="how-step">
+          <div class="how-icon"><i class="bi bi-stars"></i></div>
+          <div class="how-step-title">Get Enhanced Image</div>
+          <div class="how-step-desc">Preview and download your upscaled, high-quality image instantly.</div>
+        </div>
+      </div>
+      <a class="how-read-more" href="https://github.com/AdiBak/upscaile" target="_blank">
+        <i class="bi bi-github" style="font-size: 1.2em; vertical-align: middle; margin-right: 8px;"></i>Read More
+      </a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
@@ -319,6 +367,61 @@
 
         $(document).on("ready", ".success-img", function () {
             $("#loadingdiv").hide();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('upscaleForm');
+            var fileInput = document.getElementById('formFile');
+            var originalPreview = document.getElementById('originalPreview');
+            var enhancedArea = document.getElementById('enhancedArea');
+            var enhancedProgress = document.getElementById('enhancedProgress');
+            var enhancedLabel = document.getElementById('enhancedLabel');
+            var progressBar = document.querySelector('#enhancedProgress .progress-bar');
+
+            // Handle file upload to show image immediately
+            fileInput.addEventListener('change', function(e) {
+                var file = e.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        originalPreview.src = e.target.result;
+                        originalPreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            function animateProgress(duration) {
+                var start = null;
+                function step(timestamp) {
+                    if (!start) start = timestamp;
+                    var progress = Math.min((timestamp - start) / duration, 1);
+                    progressBar.style.width = (progress * 100) + '%';
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        progressBar.style.width = '100%';
+                    }
+                }
+                progressBar.style.width = '0%';
+                requestAnimationFrame(step);
+            }
+
+            if (form) {
+                form.addEventListener('submit', function() {
+                    // Show progress in enhanced area
+                    enhancedArea.style.display = 'none';
+                    enhancedProgress.style.display = 'block';
+                    enhancedLabel.textContent = 'Upscaling...';
+                    
+                    // Start progress animation
+                    animateProgress(2000); // 2 seconds
+                });
+            }
+
+            // Hide progress bar on page load (after result)
+            enhancedProgress.style.display = 'none';
+            enhancedArea.style.display = 'block';
         });
     </script>
 </body>
