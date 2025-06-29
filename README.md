@@ -51,3 +51,18 @@ All of this happens in just a few seconds.
 This project follows the MIT License, as specified in the Hugging Face Space.
 
 Try it out yourself at https://upscaile.onrender.com!
+
+## 🏃‍♂️ Local Development
+
+1. Clone the repo and install dependencies:
+   ```bash
+   git clone https://github.com/AdiBak/upscaile.git
+   cd upscaile
+   pip install -r requirements.txt
+   ```
+2. Set up your environment variables in `.github/envvars.env` (see setup.py for details).
+3. Run the app locally:
+   ```bash
+   python main.py
+   ```
+4. Visit [http://localhost:5000](http://localhost:5000) in your browser.
