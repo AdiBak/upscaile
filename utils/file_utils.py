@@ -29,7 +29,7 @@ def validate_file_size(file_content, max_size_mb=None):
     if max_size_mb is None:
         max_size_mb = Config.MAX_FILE_SIZE_MB
     
-    file_size_mb = len(file_content) / (1024 * 1024)
+    file_size_mb = len(file_content) / (5 * 1024 * 1024)
     return file_size_mb <= max_size_mb
 
 def secure_filename_safe(filename):
