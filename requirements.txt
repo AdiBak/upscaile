@@ -9,6 +9,6 @@ tqdm==4.65.0
 python-dotenv==1.0.0
 redis==4.6.0
 upstash-redis==1.0.0
-gradio==3.40.1
-gradio-client==0.6.1
+gradio
+gradio-client=
 psutil==5.9.5
