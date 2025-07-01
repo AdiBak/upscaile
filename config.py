@@ -8,6 +8,11 @@ class Config:
     # Flask settings
     SECRET_KEY = "jjkjkl ssdnobi"
     
+    # Timeout settings
+    REQUEST_TIMEOUT = 300  # 5 minutes for API requests
+    WORKER_TIMEOUT = 600   # 10 minutes for worker processes
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+    
     # Cloudinary settings
     CLOUDINARY_CLOUD_NAME = os.getenv("cloud_name")
     CLOUDINARY_API_KEY = os.getenv("cloudinary_key")
